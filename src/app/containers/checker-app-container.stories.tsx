@@ -28,7 +28,7 @@ import CheckerAppContainer from './checker-app-container';
 const etc: AppState = {
   user: {sub: 'uuid-of-user', email: 'b@example.com'},
   apps: apps('Quick Taxonomy Info'),
-  phase: 'ready'
+  phase: 'ready',
 };
 const funcs: Store<AppState> = {
   getState: () => etc,

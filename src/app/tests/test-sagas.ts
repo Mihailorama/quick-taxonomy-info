@@ -22,27 +22,18 @@ import { startupInfoSaga } from '../sagas';
 import { exampleUser, exampleApps,  } from './model-examples';
 
 describe('startupInfoSaga', () => {
-  it('calls APIs in parallel and dispatches profiles', () => {
+  it('calls APIs in parallel', () => {
     const saga = startupInfoSaga();
 
     expect(saga.next().value).toEqual(all([
       call(apiFetchJson, '/api/user'),
-      call(apiFetchJson, '/api/document-service/v1/categories/validation'),
       call(apiFetchJson, '/api/apps'),
     ]));
     expect(saga.next([exampleUser, exampleApps]).value)
       .toEqual(put(startupInfoReceivedAction(exampleUser, exampleApps)));
   });
 
-  it('is sad if no profiles', () => {
-    const saga = startupInfoSaga();
-
-    saga.next();
-    expect(saga.next([{}, {}]).value)
-    .toEqual(put(startupInfoFailedAction(jasmine.stringMatching(/No profiles/) as any)));
-  });
-
-  it('is sad if error fetching profiles', () => {
+  it('is sad if error fetching', () => {
     const saga = startupInfoSaga();
 
     saga.next();

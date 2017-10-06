@@ -21,8 +21,6 @@ import { Action } from 'redux';
 
 import { App, User } from './models';
 
-// Actions for acquiring the list of profiles needed by the form.
-
 export const STARTUP_INFO_RECEIVED = 'STARTUP_INFO_RECEIVED';
 export const STARTUP_INFO_FAILED = 'STARTUP_INFO_FAILED';
 

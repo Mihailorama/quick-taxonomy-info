@@ -16,7 +16,7 @@
 
 import * as React from 'react';
 import { Component, Props } from 'react';
-import { connect, MapDispatchToProps } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { AppState, AppPhase } from '../state';
 import CheckerApp from '../components/checker-app';
@@ -29,11 +29,7 @@ interface PropsFromState {
   // We'll want the entry points etc.
 }
 
-interface PropsFromDispatch {
-  // We'll want an action to trigger a query.
-}
-
-type CheckerAppContainerProps = OwnProps & PropsFromState & PropsFromDispatch;
+type CheckerAppContainerProps = OwnProps & PropsFromState;
 
 class CheckerAppContainer extends Component<CheckerAppContainerProps> {
   render(): JSX.Element {
@@ -51,7 +47,4 @@ function propsFromState(state: AppState): PropsFromState {
   return { phase };
 }
 
-const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {
-};
-
-export default connect(propsFromState, propsFromDispatch)(CheckerAppContainer);
+export default connect(propsFromState)(CheckerAppContainer);
