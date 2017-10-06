@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@cfl/bigfoot-search-service@^0.1.0-dev.32396":
+  version "0.1.0-dev.32396"
+  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/bigfoot-search-service/-/@cfl/bigfoot-search-service-0.1.0-dev.32396.tgz#4c63307d4c2e329a70163e41eaa71cba68382021"
+  dependencies:
+    core-js "^2.4.0"
+    isomorphic-fetch "^2.2.1"
+
 "@cfl/react-components@^1.4.0":
   version "1.4.0"
   resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/react-components/-/@cfl/react-components-1.4.0.tgz#7da7dbaa78dc99b5f096c1d7753d416ef5e31d9e"
@@ -4280,7 +4287,7 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
-isomorphic-fetch@^2.1.1:
+isomorphic-fetch@^2.1.1, isomorphic-fetch@^2.2.1:
   version "2.2.1"
   resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
   dependencies:

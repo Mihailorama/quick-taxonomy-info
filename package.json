@@ -46,6 +46,7 @@
     "express": "^4.15.2"
   },
   "devDependencies": {
+    "@cfl/bigfoot-search-service": "^0.1.0-dev.32396",
     "@cfl/react-components": "^1.4.0",
     "@cfl/tslint-config": "^0.6.0",
     "@janslow/ci-build-version": "^0.1.0",
