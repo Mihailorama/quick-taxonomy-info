@@ -23,7 +23,7 @@ import { action } from '@storybook/addon-actions';
 
 import { apps } from '../../stories/util';
 import { AppState } from '../state';
-import CheckerAppContainer from './checker-app-container';
+import AppContainer from './app-container';
 
 const etc: AppState = {
   user: {sub: 'uuid-of-user', email: 'b@example.com'},
@@ -42,6 +42,6 @@ storiesOf('App layout', module)
       ...funcs,
       getState: () => ({...etc}),
     }}>
-      <CheckerAppContainer/>
+      <AppContainer/>
     </Provider>,
   );

@@ -24,7 +24,7 @@ import {
 } from './actions';
 import { AppState } from './state';
 
-export function checker(state: AppState | undefined, action: Action): AppState {
+export function mainReducer(state: AppState | undefined, action: Action): AppState {
   if (!state) {
     return {phase: 'startup'};
   }

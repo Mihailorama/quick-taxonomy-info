@@ -17,7 +17,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import { checker } from './reducers';
+import { mainReducer } from './reducers';
 import { startupInfoSaga } from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -30,7 +30,7 @@ const windowPlus: {
 const composeEnhancers = windowPlus.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  checker,
+  mainReducer,
   composeEnhancers(
     applyMiddleware(sagaMiddleware)));
 

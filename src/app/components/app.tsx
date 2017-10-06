@@ -16,8 +16,8 @@
 
 import * as React from 'react';
 
-import './checker-app.less';
+import './app.less';
 
-export default function CheckerApp(): JSX.Element {
+export default function App(): JSX.Element {
   return <div>Hello, World</div>;
 }

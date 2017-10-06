@@ -19,24 +19,24 @@ import { Component, Props } from 'react';
 import { connect } from 'react-redux';
 
 import { AppState, AppPhase } from '../state';
-import CheckerApp from '../components/checker-app';
+import App from '../components/app';
 import AppBarContainer from '../corefiling/app-bar-container';
 
-type OwnProps = Props<CheckerAppContainer>;
+type OwnProps = Props<AppContainer>;
 
 interface PropsFromState {
   phase: AppPhase;
   // We'll want the entry points etc.
 }
 
-type CheckerAppContainerProps = OwnProps & PropsFromState;
+type AppContainerProps = OwnProps & PropsFromState;
 
-class CheckerAppContainer extends Component<CheckerAppContainerProps> {
+class AppContainer extends Component<AppContainerProps> {
   render(): JSX.Element {
     return (
       <div>
-        <AppBarContainer className='ckr-CheckerApp-appBar'/>
-        <CheckerApp />
+        <AppBarContainer className='app-App-appBar'/>
+        <App />
       </div>
     );
   }
@@ -47,4 +47,4 @@ function propsFromState(state: AppState): PropsFromState {
   return { phase };
 }
 
-export default connect(propsFromState)(CheckerAppContainer);
+export default connect(propsFromState)(AppContainer);
