@@ -15,6 +15,7 @@
  */
 
 import { User, App, } from '../models';
+import { Taxonomy } from '@cfl/bigfoot-search-service';
 
 export const exampleUser: User = {
   sub: 'ecdc0363-976d-4a42-a4cc-ae5d63f3a806',
@@ -27,4 +28,9 @@ export const exampleApps: App[] = [
   {id: 'beacon', name: 'Beacon', href: '/beacon/', colour: '#3c7c34', iconHref: '/img/logo-beacon.svg', features: []},
   {id: 'account', name: 'Manage account', href: '/auth/account', colour: '#3A75C4', features: []},
   {id: 'sms', name: 'Manage organisation', href: '/sms/', colour: '#3A75C4', features: []},
+];
+
+export const exampleTaxonomies: Taxonomy[] = [
+  { id: 1, name: 'UK GAAP', version: '2009', entryPoints: [{id: 1, name: 'Full'}, {id: 2, name: 'Minimal'}] },
+  { id: 2, name: 'US GAAP', version: '2012', entryPoints: [{id: 3, name: 'Commercial'}, {id: 4, name: 'Banking'}] },
 ];

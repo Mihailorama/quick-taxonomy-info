@@ -19,6 +19,7 @@
  */
 
 import { User, App } from './models';
+import { Taxonomy } from '@cfl/bigfoot-search-service';
 
 export type AppPhase = 'startup' | 'startupfailed' | 'ready';
 
@@ -26,5 +27,6 @@ export interface AppState {
   phase: AppPhase;
   user?: User;
   apps?: App[];
+  taxonomies?: Taxonomy[];
   message?: string;
 }

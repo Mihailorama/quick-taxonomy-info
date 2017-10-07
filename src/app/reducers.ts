@@ -37,8 +37,8 @@ export function mainReducer(state: AppState | undefined, action: Action): AppSta
       }
     case STARTUP_INFO_RECEIVED:
       {
-        const { user, apps } = action as StartupInfoReceivedAction;
-        return { ...state, phase: 'ready', user, apps };
+        const { user, apps, taxonomies } = action as StartupInfoReceivedAction;
+        return { ...state, phase: 'ready', user, apps, taxonomies };
       }
     default:
       break;

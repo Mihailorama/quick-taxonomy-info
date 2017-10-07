@@ -20,18 +20,20 @@ import { all, call, put } from 'redux-saga/effects';
 import { startupInfoFailedAction, startupInfoReceivedAction } from './actions';
 import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
-import { APPS, USER } from './urls';
+import { APPS, USER, taxonomiesApi } from './urls';
+import { Taxonomy } from '@cfl/bigfoot-search-service';
 
 /**
  * Fetch the information needed at startup. If this fails we cannot show the app.
  */
 export function* startupInfoSaga(): IterableIterator<Effect> {
   try {
-    const [user, apps]: [User, App[]] = yield all([
+    const [user, apps, taxonomies]: [User, App[], Taxonomy[]] = yield all([
       call(apiFetchJson, USER),
       call(apiFetchJson, APPS),
+      call(taxonomiesApi.getTaxonomies),
     ]);
-    yield put(startupInfoReceivedAction(user, apps));
+    yield put(startupInfoReceivedAction(user, apps, taxonomies));
   } catch (res) {
     yield put(startupInfoFailedAction(`Startup failed (${res.message || res.statusText || res.status}).`));
   }

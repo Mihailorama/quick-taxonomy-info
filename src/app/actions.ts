@@ -20,6 +20,7 @@
 import { Action } from 'redux';
 
 import { App, User } from './models';
+import { Taxonomy } from '@cfl/bigfoot-search-service';
 
 export const STARTUP_INFO_RECEIVED = 'STARTUP_INFO_RECEIVED';
 export const STARTUP_INFO_FAILED = 'STARTUP_INFO_FAILED';
@@ -27,10 +28,11 @@ export const STARTUP_INFO_FAILED = 'STARTUP_INFO_FAILED';
 export interface StartupInfoReceivedAction extends Action {
   user: User;
   apps: App[];
+  taxonomies: Taxonomy[];
 }
 
-export function startupInfoReceivedAction(user: User, apps: App[]): StartupInfoReceivedAction {
-  return {type: STARTUP_INFO_RECEIVED, user, apps};
+export function startupInfoReceivedAction(user: User, apps: App[], taxonomies: Taxonomy[]): StartupInfoReceivedAction {
+  return {type: STARTUP_INFO_RECEIVED, user, apps, taxonomies};
 }
 
 export interface FailedAction extends Action {
