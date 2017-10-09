@@ -22,14 +22,10 @@ import SearchResults from './search-results';
 
 import { ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
-const conceptSearchResults = () : ConceptSearchMatch[] => [
-  {label: 'aaa', localName: 'bbb', conceptHref: 'http://cc', matchedValue: 'bbb', score: 1, type: 'localname' },
-  {label: 'aaa', localName: 'bbb', conceptHref: 'http://cc', matchedValue: 'bbb', score: 1, type: 'localname' },
-  {label: 'aaa', localName: 'bbb', conceptHref: 'http://cc', matchedValue: 'bbb', score: 1, type: 'localname' },
-  {label: 'aaa', localName: 'bbb', conceptHref: 'http://cc', matchedValue: 'bbb', score: 1, type: 'localname' },
-
-];
+const conceptSearchResults = (x: number): ConceptSearchMatch[] => new Array(x).fill
+  ({label: 'aaa', localName: 'bbb', conceptHref: 'http://cc', matchedValue: 'bbb', score: 1, type: 'localname' } as ConceptSearchMatch);
 
 storiesOf('SearchResults', module)
-.addDecorator(story => <div style={{backgroundColor: '#fff', padding: '30px'}}>{story()}</div>)
-.add('Default', () => <SearchResults results={conceptSearchResults()}/>);
+.addDecorator(story => <div style={{backgroundColor: '#fff', padding: '30px', height: '100vh'}}>{story()}</div>)
+.add('5 results', () => <SearchResults results={conceptSearchResults(5)}/>)
+.add('100 results', () => <SearchResults results={conceptSearchResults(100)}/>);

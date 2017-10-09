@@ -12,7 +12,11 @@ export interface SearchFormProps {
 export default function SearchForm({ taxonomies }: SearchFormProps): JSX.Element {
   return (
     <div className='app-SearchForm-rectangle'>
+<<<<<<< HEAD
       {taxonomies ? <TaxonomySearch taxonomies={taxonomies}/> : 'Loading ….'}
+=======
+      <TaxonomySearch taxonomies={props.taxonomies}/>
+>>>>>>> 08c1c9d... Misc layout tweaks
       <SearchResults results={[]}/>
     </div>
   );
