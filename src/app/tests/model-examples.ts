@@ -15,7 +15,7 @@
  */
 
 import { User, App, } from '../models';
-import { Taxonomy } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
 export const exampleUser: User = {
   sub: 'ecdc0363-976d-4a42-a4cc-ae5d63f3a806',
@@ -34,3 +34,14 @@ export const exampleTaxonomies: Taxonomy[] = [
   { id: 1, name: 'UK GAAP', version: '2009', entryPoints: [{id: 1, name: 'Full'}, {id: 2, name: 'Minimal'}] },
   { id: 2, name: 'US GAAP', version: '2012', entryPoints: [{id: 3, name: 'Commercial'}, {id: 4, name: 'Banking'}] },
 ];
+
+export const exampleSearchResults: ConceptSearchMatch[] = [
+  {
+    conceptHref: 'the href',
+    label: 'the label',
+    localName: 'TheLocalName',
+    matchedValue: 'TheLocalName',
+    score: 0.99,
+    type: 'localname',
+  }
+]
