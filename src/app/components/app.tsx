@@ -17,7 +17,8 @@
 import * as React from 'react';
 
 import { AppPhase } from '../state';
-import { Taxonomy, EntryPoint, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import SearchForm from './search-form';
 
 import './app.less';
 
@@ -34,36 +35,21 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps): JSX.Element {
-  const {message, phase, searchText, taxonomies, selectedEntryPointId,
-    onSearch, onSearchTextChange, onTaxonomyEntryPointChange,
-    results,
-  } = props;
-  const entryPoints: EntryPoint[] = taxonomies && [].concat.apply([], taxonomies.map(t => t.entryPoints));
-
+  const {message, phase, taxonomies} = props;
   switch (phase) {
     case 'ready':
-      // Scrappy UI to be replaced with fancy components.
-      return (
-        <div>
-          <ul>
-            <select value={selectedEntryPointId} onChange={e => e.target.value && onTaxonomyEntryPointChange(parseInt(e.target.value, 10))}>
-              <option> -- Select a taxonomy -- </option>
-              {entryPoints && entryPoints.map(e =>
-                <option key={e.id} value={e.id}>{e.name}</option>)
-              }
-            </select>
-            <input type='text' placeholder='Search' onChange={e => onSearchTextChange(e.target.value)}></input>
-            <button
-              disabled={selectedEntryPointId === undefined}
-              onClick={() => onSearch(selectedEntryPointId as number, searchText)}>Go!</button>
-          </ul>
-          {results && <ul>{results.map(m => <li>{m.label}</li>)}</ul>}
-        </div>
-      );
+      return <SearchForm taxonomies={taxonomies} />;
     case 'startup':
-      return <p>Starting up...</p>;
     case 'startupfailed':
     default:
-      return <p>Error{message && `: ${message}`}</p>;
+      return <ErrorOrLoading error={message} />;
   }
+}
+
+function ErrorOrLoading({error}: {error?: string}): JSX.Element {
+  return (
+    <div  className='app-ErrorOrLoading-loading'>
+      <span>{error || 'Loading\u2009…'}</span>
+    </div>
+  );
 }
