@@ -20,10 +20,16 @@
 import { Action } from 'redux';
 
 import { App, User } from './models';
-import { Taxonomy } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
 export const STARTUP_INFO_RECEIVED = 'STARTUP_INFO_RECEIVED';
 export const STARTUP_INFO_FAILED = 'STARTUP_INFO_FAILED';
+
+export const SEARCH = 'SEARCH';
+export const TAXONOMY_ENTRY_POINT_CHANGED = 'TAXONOMY_ENTRY_POINT_CHANGED';
+export const SEARCH_RESULTS_RECEIVED = 'SEARCH_RESULTS_RECEIVED';
+export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_TEXT_CHANGED = 'SEARCH_TEXT_CHANGED';
 
 export interface StartupInfoReceivedAction extends Action {
   user: User;
@@ -41,4 +47,41 @@ export interface FailedAction extends Action {
 
 export function startupInfoFailedAction(message: string): FailedAction {
   return {type: STARTUP_INFO_FAILED, message};
+}
+
+export interface TaxonomyEntryPointChangedAction extends Action {
+  entryPointId: number;
+}
+
+export function taxonomyEntryPointChangedAction(entryPointId: number): TaxonomyEntryPointChangedAction {
+  return {type: TAXONOMY_ENTRY_POINT_CHANGED, entryPointId};
+}
+
+export interface SearchTextChangedAction extends Action {
+  searchText: string;
+}
+
+export function searchTextChangedAction(searchText: string): SearchTextChangedAction {
+  return {type: SEARCH_TEXT_CHANGED, searchText};
+}
+
+export interface SearchAction extends Action {
+  entryPointId: number;
+  search: string;
+}
+
+export function searchAction(entryPointId: number, search: string): SearchAction {
+  return {type: SEARCH, entryPointId, search};
+}
+
+export interface SearchResultsReceivedAction extends Action {
+  results: ConceptSearchMatch[];
+}
+
+export function searchResultsReceived(results: ConceptSearchMatch[]): SearchResultsReceivedAction {
+  return {type: SEARCH_RESULTS_RECEIVED, results};
+}
+
+export function searchFailedAction(message: string): FailedAction {
+  return {type: SEARCH_FAILED, message};
 }

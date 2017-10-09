@@ -16,12 +16,13 @@
 
 import * as React from 'react';
 import { Component, Props } from 'react';
-import { connect } from 'react-redux';
+import { connect, MapDispatchToProps } from 'react-redux';
 
 import { AppState, AppPhase } from '../state';
 import App from '../components/app';
 import AppBarContainer from '../corefiling/app-bar-container';
-import { Taxonomy } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { taxonomyEntryPointChangedAction, searchAction, searchTextChangedAction } from '../actions';
 
 type OwnProps = Props<AppContainer>;
 
@@ -29,25 +30,53 @@ interface PropsFromState {
   phase: AppPhase;
   message?: string;
   taxonomies?: Taxonomy[];
+  results?: ConceptSearchMatch[];
+  searchText: string;
+  selectedEntryPointId?: number;
 }
 
-type AppContainerProps = OwnProps & PropsFromState;
+interface PropsFromDispatch {
+  onTaxonomyEntryPointChange: typeof taxonomyEntryPointChangedAction;
+  onSearch: typeof searchAction;
+  onSearchTextChange: typeof searchTextChangedAction;
+}
+
+type AppContainerProps = OwnProps & PropsFromState & PropsFromDispatch;
 
 class AppContainer extends Component<AppContainerProps> {
   render(): JSX.Element {
-    const {message, phase, taxonomies} = this.props;
+    const {
+      message, phase,
+      onSearch, onSearchTextChange, onTaxonomyEntryPointChange,
+      results, searchText, selectedEntryPointId,
+      taxonomies} = this.props;
     return (
       <div>
         <AppBarContainer className='app-App-appBar'/>
-        <App message={message} phase={phase} taxonomies={taxonomies} />
+        <App
+          message={message}
+          onSearch={onSearch}
+          onTaxonomyEntryPointChange={onTaxonomyEntryPointChange}
+          onSearchTextChange={onSearchTextChange}
+          phase={phase}
+          results={results}
+          searchText={searchText}
+          selectedEntryPointId={selectedEntryPointId}
+          taxonomies={taxonomies} />
       </div>
     );
   }
 }
 
 function propsFromState(state: AppState): PropsFromState {
-  const { message, phase, taxonomies } = state;
-  return { message, phase, taxonomies };
+  const { message, phase, results, searchText, selectedEntryPointId, taxonomies } = state;
+  return { message, phase, results, searchText, selectedEntryPointId, taxonomies };
 }
 
-export default connect(propsFromState)(AppContainer);
+const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {
+  onSearch: searchAction,
+  onSearchTextChange: searchTextChangedAction,
+  onTaxonomyEntryPointChange: taxonomyEntryPointChangedAction,
+};
+
+export default connect(propsFromState, propsFromDispatch)(AppContainer);
