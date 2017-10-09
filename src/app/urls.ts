@@ -28,7 +28,6 @@ const APP_HOME = uriTemplates('{+base}');
 const APP_HELP = uriTemplates('{+base}static/user-guide.html');
 
 export const taxonomiesApi = new TaxonomiesApi(apiFetch, '/api/bigfoot-search-service/v1/');
-taxonomiesApi.getTaxonomies = taxonomiesApi.getTaxonomies.bind(taxonomiesApi);
 
 export const appHome = ({href}: App) => APP_HOME.fillFromObject({base: href});
 export const appHelp = ({href}: App) => APP_HELP.fillFromObject({base: href});

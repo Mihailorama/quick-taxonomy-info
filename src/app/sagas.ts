@@ -31,7 +31,7 @@ export function* startupInfoSaga(): IterableIterator<Effect> {
     const [user, apps, taxonomies]: [User, App[], Taxonomy[]] = yield all([
       call(apiFetchJson, USER),
       call(apiFetchJson, APPS),
-      call(taxonomiesApi.getTaxonomies),
+      call([taxonomiesApi, taxonomiesApi.getTaxonomies]),
     ]);
     yield put(startupInfoReceivedAction(user, apps, taxonomies));
   } catch (res) {

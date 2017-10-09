@@ -29,7 +29,7 @@ describe('startupInfoSaga', () => {
     expect(saga.next().value).toEqual(all([
       call(apiFetchJson, '/api/user'),
       call(apiFetchJson, '/api/apps'),
-      call(taxonomiesApi.getTaxonomies),
+      call([taxonomiesApi, taxonomiesApi.getTaxonomies]),
     ]));
     expect(saga.next([exampleUser, exampleApps, exampleTaxonomies]).value)
       .toEqual(put(startupInfoReceivedAction(exampleUser, exampleApps, exampleTaxonomies)));
