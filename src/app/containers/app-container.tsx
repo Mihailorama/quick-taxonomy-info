@@ -21,30 +21,33 @@ import { connect } from 'react-redux';
 import { AppState, AppPhase } from '../state';
 import App from '../components/app';
 import AppBarContainer from '../corefiling/app-bar-container';
+import { Taxonomy } from '@cfl/bigfoot-search-service';
 
 type OwnProps = Props<AppContainer>;
 
 interface PropsFromState {
   phase: AppPhase;
-  // We'll want the entry points etc.
+  message?: string;
+  taxonomies?: Taxonomy[];
 }
 
 type AppContainerProps = OwnProps & PropsFromState;
 
 class AppContainer extends Component<AppContainerProps> {
   render(): JSX.Element {
+    const {message, phase, taxonomies} = this.props;
     return (
       <div>
         <AppBarContainer className='app-App-appBar'/>
-        <App />
+        <App message={message} phase={phase} taxonomies={taxonomies} />
       </div>
     );
   }
 }
 
 function propsFromState(state: AppState): PropsFromState {
-  const { phase } = state;
-  return { phase };
+  const { message, phase, taxonomies } = state;
+  return { message, phase, taxonomies };
 }
 
 export default connect(propsFromState)(AppContainer);

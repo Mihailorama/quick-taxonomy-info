@@ -19,7 +19,8 @@ import { all, call, put } from 'redux-saga/effects';
 import { startupInfoReceivedAction, startupInfoFailedAction } from '../actions';
 import { apiFetchJson } from '../api-fetch';
 import { startupInfoSaga } from '../sagas';
-import { exampleUser, exampleApps,  } from './model-examples';
+import { exampleUser, exampleApps, exampleTaxonomies } from './model-examples';
+import { taxonomiesApi } from '../urls';
 
 describe('startupInfoSaga', () => {
   it('calls APIs in parallel', () => {
@@ -28,9 +29,10 @@ describe('startupInfoSaga', () => {
     expect(saga.next().value).toEqual(all([
       call(apiFetchJson, '/api/user'),
       call(apiFetchJson, '/api/apps'),
+      call([taxonomiesApi, taxonomiesApi.getTaxonomies]),
     ]));
-    expect(saga.next([exampleUser, exampleApps]).value)
-      .toEqual(put(startupInfoReceivedAction(exampleUser, exampleApps)));
+    expect(saga.next([exampleUser, exampleApps, exampleTaxonomies]).value)
+      .toEqual(put(startupInfoReceivedAction(exampleUser, exampleApps, exampleTaxonomies)));
   });
 
   it('is sad if error fetching', () => {
