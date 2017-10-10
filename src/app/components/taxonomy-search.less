@@ -22,17 +22,21 @@
 
     padding: 10px 15px 25px 15px;
     display: flex;
+    align-items: center;
   }
 
   &-select {
     flex-grow: 2;
+    position: relative;
   }
 
   &-select select {
+    position: relative;
+    margin: 0;
     border: 1px solid @primary;
     border-radius: 3px;
     font-size: 18px;
-    line-height: 21px;
+    line-height: 20px;
     padding: 9px 7px;
     text-align: center;
     background-color: white;
@@ -54,20 +58,10 @@
   &-search {
     flex-grow: 1;
     margin-left: 65px;
-    position: relative;
-
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      width: 20px;
-      height: 20px;
-    }
   }
 
   &-search input[type=text] {
+    position: relative;
     border: 1px solid @primary;
     border-radius: 3px;
     font-size: 14px;
@@ -97,5 +91,22 @@
 
   &-searchEnabled &-searchButton {
     background-image: url(search-enabled.svg);
+  }
+
+  &-select,
+  &-search {
+    position: relative;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      height: percentage(1.59/2.95);
+      width: 100%;
+      border-radius: 3px;
+      box-shadow: 0 3px 20px 0 rgba(0,0,0,0.23);
+    }
   }
 }
