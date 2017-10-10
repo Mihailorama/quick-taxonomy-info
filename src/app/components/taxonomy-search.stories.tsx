@@ -40,5 +40,6 @@ storiesOf('TaxonomySearch', module)
 .add('Taxonomy selected, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1}/>)
 .add('Taxonomy selected, longer query', () => <TaxonomySearch
     {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1}
-    searchText={'Antidisestablishmentarianism taxation rebate calculated according to the Antidisestablishmentarianism Taxation Rebate Regulations (2019)'}/>)
+    searchText={'Antidisestablishmentarianism taxation rebate calculated according to the Antidisestablishmentarianism '
+      + 'Taxation Rebate Regulations (2019)'}/>)
 .add('100 results', () => <TaxonomySearch {...actions} taxonomies={taxonomies(100)}/>);
