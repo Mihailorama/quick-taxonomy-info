@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-
 import { AppState } from '../state';
 import { mainReducer } from '../reducers';
 import { searchResultsReceived, searchFailedAction, searchTextChangedAction, taxonomyEntryPointChangedAction } from '../actions';

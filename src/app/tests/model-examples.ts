@@ -43,5 +43,5 @@ export const exampleSearchResults: ConceptSearchMatch[] = [
     matchedValue: 'TheLocalName',
     score: 0.99,
     type: 'localname',
-  }
-]
+  },
+];
