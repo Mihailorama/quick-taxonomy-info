@@ -46,6 +46,7 @@ export default function TaxonomySearch({ taxonomies, selectedEntryPointId, searc
       </div>
       <div className={classNames('app-TaxonomySearch-search', {'app-TaxonomySearch-searchEnabled': hasTaxonomy})}>
         <input type='text' placeholder='Search' value={searchText} onChange={e => onSearchTextChange(e.currentTarget.value)}/>
+        <input type='submit' className='app-TaxonomySearch-searchButton' value=''/>
       </div>
     </form>
   );
