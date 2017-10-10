@@ -34,8 +34,12 @@ const actions: Pick<TaxonomySearchProps, 'onSearch' | 'onSearchTextChange' | 'on
 };
 
 storiesOf('TaxonomySearch', module)
-.addDecorator(story => <div style={{backgroundColor: '#fff', padding: '15px', width: '800px', display: 'flex'}}>{story()}</div>)
+.addDecorator(story => <div style={{backgroundColor: '#fff', width: '100%'}}>{story()}</div>)
 .add('Taxonomies, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)}/>)
 .add('Taxonomies, with query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} searchText='Cash'/>)
 .add('Taxonomy selected, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1}/>)
+.add('Taxonomy selected, longer query', () => <TaxonomySearch
+    {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1}
+    searchText={'Antidisestablishmentarianism taxation rebate calculated according to the Antidisestablishmentarianism '
+      + 'Taxation Rebate Regulations (2019)'}/>)
 .add('100 results', () => <TaxonomySearch {...actions} taxonomies={taxonomies(100)}/>);

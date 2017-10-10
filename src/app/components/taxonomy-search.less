@@ -18,19 +18,25 @@
 
 .app-TaxonomySearch {
   &-container {
+    flex-grow: 1;
+
     padding: 10px 15px 25px 15px;
     display: flex;
+    align-items: center;
   }
 
   &-select {
     flex-grow: 2;
+    position: relative;
   }
 
   &-select select {
+    position: relative;
+    margin: 0;
     border: 1px solid @primary;
     border-radius: 3px;
     font-size: 18px;
-    line-height: 21px;
+    line-height: 20px;
     padding: 9px 7px;
     text-align: center;
     background-color: white;
@@ -52,32 +58,10 @@
   &-search {
     flex-grow: 1;
     margin-left: 65px;
-    position: relative;
-
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      width: 20px;
-      height: 20px;
-      background-image: url('search-disabled.svg');
-    }
-
-    &-searchEnabled:after {
-      content: '';
-      display: block;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      width: 20px;
-      height: 20px;
-      background-image: url('search-enabled.svg');
-    }
   }
 
-  &-search input {
+  &-search input[type=text] {
+    position: relative;
     border: 1px solid @primary;
     border-radius: 3px;
     font-size: 14px;
@@ -85,5 +69,44 @@
     padding: 11px 32px 11px 12px;
     width: 100%;
     box-sizing: border-box;
+  }
+
+
+  &-searchButton {
+    display: block;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background-color: #FFF;
+    background-image: url(search-disabled.svg);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border: none;
+    z-index: 5;
+  }
+
+  &-searchEnabled &-searchButton {
+    background-image: url(search-enabled.svg);
+  }
+
+  &-select,
+  &-search {
+    position: relative;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      height: percentage(1.59/2.95);
+      width: 100%;
+      border-radius: 3px;
+      box-shadow: 0 3px 20px 0 rgba(0,0,0,0.23);
+    }
   }
 }
