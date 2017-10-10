@@ -14,10 +14,10 @@
  *  limitations under the License.
  */
 
-import { isUndefined } from 'util';
-
-import { Taxonomy } from '@cfl/bigfoot-search-service';
+import * as classNames from 'classnames';
 import * as React from 'react';
+import { isUndefined } from 'util';
+import { Taxonomy } from '@cfl/bigfoot-search-service';
 
 import './taxonomy-search.less';
 
@@ -27,18 +27,20 @@ export interface TaxonomySearchProps {
   query?: string;
 }
 
-export default function TaxonomySearch(props: TaxonomySearchProps): JSX.Element {
-  const enabled = !isUndefined(props.selectedTaxonomy);
+export default function TaxonomySearch({ taxonomies, selectedTaxonomy, query }: TaxonomySearchProps): JSX.Element {
+  const hasTaxonomy = !isUndefined(selectedTaxonomy);
   return (
     <div className='app-TaxonomySearch-container'>
       <div className='app-TaxonomySearch-select'>
-        <select required>
-          { enabled || <option disabled selected value=''>Taxonomy</option> }
-          { props.taxonomies.map(t => <option key={t.id} value={t.id} selected={props.selectedTaxonomy === t.id}>{t.name}</option>) }
+        <select required value={selectedTaxonomy || ''}>
+          <option key='none' value='' disabled hidden>Taxonomy</option>
+          {taxonomies.map(t => <optgroup label={t.name}>
+            {t.entryPoints.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
+          </optgroup>)}
         </select>
       </div>
-      <div className={'app-TaxonomySearch-search' + (enabled ? ' enabled' : '')}>
-        <input type='text' placeholder='Search' value={props.query}/>
+      <div className={classNames('app-TaxonomySearch-search', {'app-TaxonomySearch-searchEnabled': hasTaxonomy})}>
+        <input type='text' placeholder='Search' value={query}/>
       </div>
     </div>
   );
