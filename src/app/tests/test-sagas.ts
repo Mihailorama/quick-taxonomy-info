@@ -21,7 +21,7 @@ import {
   SEARCH, searchFailedAction, searchResultsReceived, SearchAction } from '../actions';
 import { apiFetchJson } from '../api-fetch';
 import { startupInfoSaga, searchSaga } from '../sagas';
-import { exampleUser, exampleApps, exampleTaxonomies } from './model-examples';
+import { exampleUser, exampleApps, exampleTaxonomies, exampleSearchResults } from './model-examples';
 import { taxonomiesApi, conceptsApi } from '../urls';
 import { ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
@@ -64,7 +64,7 @@ describe('searchSaga', () => {
       call([conceptsApi, conceptsApi.searchConcepts], expectedParams),
     );
 
-    const results: ConceptSearchMatch[] = [];
+    const results: ConceptSearchMatch[] = exampleSearchResults;
     expect(saga.next(results).value)
       .toEqual(put(searchResultsReceived(results)));
   });
