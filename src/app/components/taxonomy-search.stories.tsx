@@ -15,22 +15,27 @@
  */
 
 import * as React from 'react';
-
 import { storiesOf } from '@storybook/react';
-
-import TaxonomySearch from './taxonomy-search';
-
+import { action } from '@storybook/addon-actions';
 import { Taxonomy } from '@cfl/bigfoot-search-service';
+
+import TaxonomySearch, { TaxonomySearchProps } from './taxonomy-search';
 
 const taxonomies = (x: number): Taxonomy[] => {
   return new Array(x)
     .fill('')
-    .map((_, i) => ({name: 'Some Taxonomy 200' + i, id: i, entryPoints: [ { name: 'Entry Point A', id: 1 } ]} as Taxonomy));
+    .map((_, i) => ({name: 'Some Taxonomy 200' + i, id: i, entryPoints: [ { name: 'Entry Point A', id: (1000 + i) } ]} as Taxonomy));
+};
+
+const actions: Pick<TaxonomySearchProps, 'onSearch' | 'onSearchTextChange' | 'onTaxonomyEntryPointChange'> = {
+  onSearch: action('onSearch'),
+  onSearchTextChange: action('onSearchTextChange'),
+  onTaxonomyEntryPointChange: action('onTaxonomyEntryPointChange'),
 };
 
 storiesOf('TaxonomySearch', module)
 .addDecorator(story => <div style={{backgroundColor: '#fff', padding: '15px', width: '800px', display: 'flex'}}>{story()}</div>)
-.add('Taxonomies, no query', () => <TaxonomySearch taxonomies={taxonomies(5)}/>)
-.add('Taxonomies, with query', () => <TaxonomySearch taxonomies={taxonomies(5)} query='Cash'/>)
-.add('Taxonomy selected, no query', () => <TaxonomySearch taxonomies={taxonomies(5)} selectedTaxonomy={1}/>)
-.add('100 results', () => <TaxonomySearch taxonomies={taxonomies(100)}/>);
+.add('Taxonomies, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)}/>)
+.add('Taxonomies, with query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} searchText='Cash'/>)
+.add('Taxonomy selected, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1}/>)
+.add('100 results', () => <TaxonomySearch {...actions} taxonomies={taxonomies(100)}/>);

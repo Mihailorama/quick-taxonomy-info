@@ -29,20 +29,21 @@ export interface AppProps {
   searchText: string;
   selectedEntryPointId?: number;
   results?: ConceptSearchMatch[];
+
   onSearch: (entryPointId: number, search: string) => any;
   onSearchTextChange: (search: string) => any;
   onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
 
 export default function App(props: AppProps): JSX.Element {
-  const {message, phase, taxonomies} = props;
+  const {message, phase, ...searchFormProps} = props;
   switch (phase) {
     case 'ready':
-      return <SearchForm taxonomies={taxonomies} />;
+      return <SearchForm {...searchFormProps}/>;
     case 'startup':
     case 'startupfailed':
     default:
-      return <ErrorOrLoading error={message} />;
+      return <ErrorOrLoading error={message}/>;
   }
 }
 

@@ -15,7 +15,7 @@
  */
 
 import * as React from 'react';
-import { Taxonomy } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
 import TaxonomySearch from './taxonomy-search';
 import SearchResults from './search-results';
@@ -24,13 +24,29 @@ import './search-form.less';
 
 export interface SearchFormProps {
   taxonomies?: Taxonomy[];
+  searchText?: string;
+  selectedEntryPointId?: number;
+  results?: ConceptSearchMatch[];
+
+  onSearch: (entryPointId: number, search: string) => any;
+  onSearchTextChange: (search: string) => any;
+  onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
 
-export default function SearchForm({ taxonomies }: SearchFormProps): JSX.Element {
+export default function SearchForm({
+  taxonomies, searchText, selectedEntryPointId, results,
+  onSearch, onSearchTextChange, onTaxonomyEntryPointChange,
+}: SearchFormProps): JSX.Element {
   return (
     <div className='app-SearchForm-rectangle'>
-      {taxonomies ? <TaxonomySearch taxonomies={taxonomies}/> : 'Loading ….'}
-      <SearchResults results={[]}/>
+      {taxonomies ? <TaxonomySearch
+        taxonomies={taxonomies} selectedEntryPointId={selectedEntryPointId}
+        onSearch={selectedEntryPointId ? () => onSearch(selectedEntryPointId, searchText || '') : undefined}
+        onSearchTextChange={onSearchTextChange}
+        onTaxonomyEntryPointChange={onTaxonomyEntryPointChange}
+      /> : 'Loading ….'}
+      {results && <SearchResults results={results}/>}
+      {!selectedEntryPointId && <p>Please select a taxonomy to search.</p>}
     </div>
   );
 }

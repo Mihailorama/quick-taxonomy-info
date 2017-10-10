@@ -23,16 +23,21 @@ import './taxonomy-search.less';
 
 export interface TaxonomySearchProps {
   taxonomies: Taxonomy[];
-  selectedTaxonomy?: number;
-  query?: string;
+  selectedEntryPointId?: number;
+  searchText?: string;
+
+  onSearch?: () => any;
+  onSearchTextChange: (search: string) => any;
+  onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
 
-export default function TaxonomySearch({ taxonomies, selectedTaxonomy, query }: TaxonomySearchProps): JSX.Element {
-  const hasTaxonomy = !isUndefined(selectedTaxonomy);
+export default function TaxonomySearch({ taxonomies, selectedEntryPointId, searchText,
+    onTaxonomyEntryPointChange, onSearchTextChange, onSearch }: TaxonomySearchProps): JSX.Element {
+  const hasTaxonomy = !isUndefined(selectedEntryPointId);
   return (
-    <div className='app-TaxonomySearch-container'>
+    <form className='app-TaxonomySearch-container' onSubmit={e => {e.preventDefault(); if (onSearch) { onSearch(); }}}>
       <div className='app-TaxonomySearch-select'>
-        <select required value={selectedTaxonomy || ''}>
+        <select required value={selectedEntryPointId || ''} onChange={e => onTaxonomyEntryPointChange(+e.currentTarget.value)}>
           <option key='none' value='' disabled hidden>Taxonomy</option>
           {taxonomies.map(t => <optgroup label={t.name}>
             {t.entryPoints.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
@@ -40,8 +45,8 @@ export default function TaxonomySearch({ taxonomies, selectedTaxonomy, query }: 
         </select>
       </div>
       <div className={classNames('app-TaxonomySearch-search', {'app-TaxonomySearch-searchEnabled': hasTaxonomy})}>
-        <input type='text' placeholder='Search' value={query}/>
+        <input type='text' placeholder='Search' value={searchText} onChange={e => onSearchTextChange(e.currentTarget.value)}/>
       </div>
-    </div>
+    </form>
   );
 }
