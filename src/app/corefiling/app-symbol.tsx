@@ -32,7 +32,7 @@ export default class AppSymbol extends Component<AppSymbolProps> {
     const { className, style } = this.props;
     /* tslint:disable */
     return  <svg className={classNames('app-AppLogo', className)}  style={style} width="35px" height="35px" viewBox="0 0 35 35" version="1.1">
-        <g stroke="none" stroke-width="1" fill="none" fillRule="evenodd">
+        <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g transform="translate(-19.000000, -11.000000)">
                 <g transform="translate(19.000000, 10.000000)">
                     <path d="M13.7512364,6.35301818 C13.2134182,6.35301818 12.7443273,6.7512 12.6712364,7.29992727 L12.4770545,8.75956364 C12.3963273,9.35629091 12.8163273,9.90501818 13.4130545,9.98465455 L18.2545091,10.6315636 C18.3036,10.6381091 18.3526909,10.6413818 18.4006909,10.6413818 C18.9385091,10.6413818 19.4076,10.2421091 19.4806909,9.69447273 L19.6759636,8.23592727 C19.7556,7.63810909 19.3356,7.08938182 18.7388727,7.00974545 L13.8974182,6.36283636 C13.8483273,6.35629091 13.7992364,6.35301818 13.7512364,6.35301818 M13.7534182,7.44392727 L18.5937818,8.09083636 L18.3996,9.55047273 L13.5581455,8.90356364 L13.7534182,7.44392727" fill="#2D5578"></path>
