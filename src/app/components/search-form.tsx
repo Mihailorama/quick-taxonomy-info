@@ -15,18 +15,16 @@
  */
 
 import * as React from 'react';
-
-import { AppPhase } from '../state';
 import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
-import SearchForm from './search-form';
 
-import './app.less';
+import TaxonomySearch from './taxonomy-search';
+import SearchResults from './search-results';
 
-export interface AppProps {
-  message?: string;
-  phase: AppPhase;
+import './search-form.less';
+
+export interface SearchFormProps {
   taxonomies?: Taxonomy[];
-  searchText: string;
+  searchText?: string;
   selectedEntryPointId?: number;
   results?: ConceptSearchMatch[];
 
@@ -35,22 +33,20 @@ export interface AppProps {
   onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
 
-export default function App(props: AppProps): JSX.Element {
-  const {message, phase, ...searchFormProps} = props;
-  switch (phase) {
-    case 'ready':
-      return <SearchForm {...searchFormProps}/>;
-    case 'startup':
-    case 'startupfailed':
-    default:
-      return <ErrorOrLoading error={message}/>;
-  }
-}
-
-function ErrorOrLoading({error}: {error?: string}): JSX.Element {
+export default function SearchForm({
+  taxonomies, searchText, selectedEntryPointId, results,
+  onSearch, onSearchTextChange, onTaxonomyEntryPointChange,
+}: SearchFormProps): JSX.Element {
   return (
-    <div  className='app-ErrorOrLoading-loading'>
-      <span>{error || 'Loading\u2009…'}</span>
+    <div className='app-SearchForm-rectangle'>
+      {taxonomies ? <TaxonomySearch
+        taxonomies={taxonomies} selectedEntryPointId={selectedEntryPointId}
+        onSearch={selectedEntryPointId ? () => onSearch(selectedEntryPointId, searchText || '') : undefined}
+        onSearchTextChange={onSearchTextChange}
+        onTaxonomyEntryPointChange={onTaxonomyEntryPointChange}
+      /> : 'Loading ….'}
+      {results && <SearchResults results={results}/>}
+      {!selectedEntryPointId && <p>Please select a taxonomy to search.</p>}
     </div>
   );
 }

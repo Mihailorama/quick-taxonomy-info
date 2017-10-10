@@ -1,0 +1,89 @@
+/*
+ *  Copyright 2017 CoreFiling S.A.R.L.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+@import (reference) '../styles/defs';
+
+.app-TaxonomySearch {
+  &-container {
+    padding: 10px 15px 25px 15px;
+    display: flex;
+  }
+
+  &-select {
+    flex-grow: 2;
+  }
+
+  &-select select {
+    border: 1px solid @primary;
+    border-radius: 3px;
+    font-size: 18px;
+    line-height: 21px;
+    padding: 9px 7px;
+    text-align: center;
+    background-color: white;
+    width: 100%;
+
+    &:required:invalid {
+      color: gray;
+    }
+
+    & option[value=""][disabled] {
+      display: none;
+    }
+
+    & option {
+      color: black;
+    }
+  }
+
+  &-search {
+    flex-grow: 1;
+    margin-left: 65px;
+    position: relative;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      background-image: url('search-disabled.svg');
+    }
+
+    &-searchEnabled:after {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      background-image: url('search-enabled.svg');
+    }
+  }
+
+  &-search input {
+    border: 1px solid @primary;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 11px 32px 11px 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
