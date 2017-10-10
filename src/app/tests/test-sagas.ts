@@ -16,11 +16,14 @@
 
 import { all, call, put } from 'redux-saga/effects';
 
-import { startupInfoReceivedAction, startupInfoFailedAction } from '../actions';
+import {
+  startupInfoReceivedAction, startupInfoFailedAction,
+  SEARCH, searchFailedAction, searchResultsReceived, SearchAction } from '../actions';
 import { apiFetchJson } from '../api-fetch';
-import { startupInfoSaga } from '../sagas';
+import { startupInfoSaga, searchSaga } from '../sagas';
 import { exampleUser, exampleApps, exampleTaxonomies } from './model-examples';
-import { taxonomiesApi } from '../urls';
+import { taxonomiesApi, conceptsApi } from '../urls';
+import { ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
 describe('startupInfoSaga', () => {
   it('calls APIs in parallel', () => {
@@ -41,5 +44,34 @@ describe('startupInfoSaga', () => {
     saga.next();
     expect(saga.throw && saga.throw({status: 403, statusText: 'LOLWAT'}).value)
     .toEqual(put(startupInfoFailedAction(jasmine.stringMatching(/LOLWAT/) as any)));
+  });
+});
+
+describe('searchSaga', () => {
+
+  const action: SearchAction = {type: SEARCH, entryPointId: 1, search: 'foo'};
+  const saga = searchSaga(action);
+
+  it('fetches search results', () => {
+    const expectedParams = {
+      entryPointId: 1,
+      search: 'foo',
+      pageNumber: 1,
+      pageSize: 100,
+    };
+
+    expect(saga.next().value).toEqual(
+      call([conceptsApi, conceptsApi.searchConcepts], expectedParams),
+    );
+
+    const results: ConceptSearchMatch[] = [];
+    expect(saga.next(results).value)
+      .toEqual(put(searchResultsReceived(results)));
+  });
+
+  it('is sad if error fetching', () => {
+    expect(saga.throw && saga.throw({status: 403, statusText: 'LOLWAT'}).value)
+    .toEqual(put(searchFailedAction(jasmine.stringMatching(/LOLWAT/) as any)));
+    saga.next();
   });
 });

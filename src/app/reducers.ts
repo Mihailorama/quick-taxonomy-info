@@ -20,26 +20,47 @@
 import { Action } from 'redux';
 
 import {
-  STARTUP_INFO_RECEIVED, StartupInfoReceivedAction, STARTUP_INFO_FAILED, FailedAction,
+  FailedAction,
+  STARTUP_INFO_RECEIVED, STARTUP_INFO_FAILED, StartupInfoReceivedAction,
+  TAXONOMY_ENTRY_POINT_CHANGED, TaxonomyEntryPointChangedAction,
+  SEARCH_FAILED, SEARCH_RESULTS_RECEIVED, SearchResultsReceivedAction,
+  SEARCH_TEXT_CHANGED, SearchTextChangedAction,
 } from './actions';
 import { AppState } from './state';
 
 export function mainReducer(state: AppState | undefined, action: Action): AppState {
   if (!state) {
-    return {phase: 'startup'};
+    return {
+      phase: 'startup',
+      searchText: '',
+    };
   }
 
   switch (action.type)  {
-    case STARTUP_INFO_FAILED:
-      {
-        const { message } = action as FailedAction;
-        return { ...state, phase: 'startupfailed', message };
-      }
-    case STARTUP_INFO_RECEIVED:
-      {
-        const { user, apps, taxonomies } = action as StartupInfoReceivedAction;
-        return { ...state, phase: 'ready', user, apps, taxonomies };
-      }
+    case STARTUP_INFO_FAILED: {
+      const { message } = action as FailedAction;
+      return { ...state, phase: 'startupfailed', message };
+    }
+    case STARTUP_INFO_RECEIVED: {
+      const { user, apps, taxonomies } = action as StartupInfoReceivedAction;
+      return { ...state, phase: 'ready', user, apps, taxonomies };
+    }
+    case TAXONOMY_ENTRY_POINT_CHANGED: {
+      const { entryPointId } = action as TaxonomyEntryPointChangedAction;
+      return { ...state, selectedEntryPointId: entryPointId, results: undefined };
+    }
+    case SEARCH_TEXT_CHANGED: {
+      const { searchText } = action as SearchTextChangedAction;
+      return { ...state, searchText, results: undefined };
+    }
+    case SEARCH_FAILED: {
+      const { message } = action as FailedAction;
+      return { ...state, phase: 'searchfailed', message };
+    }
+    case SEARCH_RESULTS_RECEIVED: {
+      const { results } = action as SearchResultsReceivedAction;
+      return { ...state, results };
+    }
     default:
       break;
   }

@@ -15,12 +15,15 @@
  */
 
 import { Effect } from 'redux-saga';
-import { all, call, put } from 'redux-saga/effects';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
 
-import { startupInfoFailedAction, startupInfoReceivedAction } from './actions';
+import {
+  startupInfoFailedAction, startupInfoReceivedAction,
+  SEARCH, searchResultsReceived, searchFailedAction, SearchAction,
+} from './actions';
 import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
-import { APPS, USER, taxonomiesApi } from './urls';
+import { APPS, USER, conceptsApi, taxonomiesApi } from './urls';
 import { Taxonomy } from '@cfl/bigfoot-search-service';
 
 /**
@@ -37,4 +40,30 @@ export function* startupInfoSaga(): IterableIterator<Effect> {
   } catch (res) {
     yield put(startupInfoFailedAction(`Startup failed (${res.message || res.statusText || res.status}).`));
   }
+}
+
+export function* searchSaga(action: SearchAction): IterableIterator<Effect> {
+  const { entryPointId, search } = action;
+  try {
+    const params = {
+      entryPointId,
+      search,
+      // Hardcoded for now - paging to be tackled separately.
+      pageNumber: 1,
+      pageSize: 100,
+    };
+    const results = yield call([conceptsApi, conceptsApi.searchConcepts], params);
+    yield put(searchResultsReceived(results));
+  } catch (res) {
+    yield put(searchFailedAction(`Search failed (${res.message || res.statusText || res.status}).`));
+  }
+}
+
+/**
+ * Watch for actions.
+ */
+export function* appSaga(): IterableIterator<Effect> {
+  yield all([
+    takeEvery(SEARCH, searchSaga),
+  ]);
 }

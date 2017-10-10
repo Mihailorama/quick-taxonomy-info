@@ -29,6 +29,7 @@ const etc: AppState = {
   user: {sub: 'uuid-of-user', email: 'b@example.com'},
   apps: apps('Quick Taxonomy Info'),
   phase: 'ready',
+  searchText: 'Assets',
 };
 const funcs: Store<AppState> = {
   getState: () => etc,
