@@ -185,7 +185,7 @@
 .react-selectize-control {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
 
@@ -214,7 +214,7 @@
   .react-selectize-search-field-and-selected-values {
     flex-grow: 1;
     flex-shrink: 1;
-    width: 100%;
+    width: ~"calc(100% - 38px)";
     display: flex;
     flex-flow: row wrap;
   }
@@ -272,7 +272,7 @@
 
   .dropdown-menu {
     z-index: 10;
-    box-sizing: border-box;
+    // box-sizing: border-box;
     overflow: auto;
     position: absolute;
     max-height: 80vh;
