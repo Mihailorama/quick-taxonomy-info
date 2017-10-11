@@ -34,7 +34,9 @@ export default function SearchResults({results}: SearchResultsProps): JSX.Elemen
         </thead>
         <tbody>
           {results.map(t => <tr>
-            <td className='app-SearchResults-link-holder'><a className='app-SearchResults-link' href={t.conceptHref}></a></td>
+            <td className='app-SearchResults-link-holder'>
+              <a className='app-SearchResults-link' target='_blank' href={t.conceptHref}></a>
+            </td>
             <td>{t.localName}</td>
             <td>{t.label}</td>
           </tr>)}
