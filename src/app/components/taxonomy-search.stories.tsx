@@ -21,10 +21,24 @@ import { Taxonomy } from '@cfl/bigfoot-search-service';
 
 import TaxonomySearch, { TaxonomySearchProps } from './taxonomy-search';
 
-const taxonomies = (x: number): Taxonomy[] => {
-  return new Array(x)
+let nextId = 1;
+
+const adj = ['Lazy', 'Eager', 'Unique', 'Dashing', 'Basic'];
+const nouns = ['Ape', 'Bee', 'Cat', 'Dog', 'Fox', 'Gee', 'Hog'];
+
+const createName = (n: number) => `${adj[n % 5]} ${nouns[Math.floor(n / 5) % 7]} ${1 + Math.floor(n / 35)}`;
+
+const taxonomy = (name: string, version = '2017-10-10', entryPointCount = 10) => ({
+  id: ++nextId,
+  name,
+  version,
+  entryPoints: Array(entryPointCount).fill('').map((_, i) => ({ name: 'Entry Point ' + createName(i), id: (1000 * nextId + i) })),
+});
+
+const taxonomies = (count: number): Taxonomy[] => {
+  return new Array(count)
     .fill('')
-    .map((_, i) => ({name: 'Some Taxonomy 200' + i, id: i, entryPoints: [ { name: 'Entry Point A', id: (1000 + i) } ]} as Taxonomy));
+    .map((_, i) => taxonomy(`Taxonomy ${createName(i)}`));
 };
 
 const actions: Pick<TaxonomySearchProps, 'onSearch' | 'onSearchTextChange' | 'onTaxonomyEntryPointChange'> = {
@@ -34,12 +48,12 @@ const actions: Pick<TaxonomySearchProps, 'onSearch' | 'onSearchTextChange' | 'on
 };
 
 storiesOf('TaxonomySearch', module)
-.addDecorator(story => <div style={{backgroundColor: '#fff', width: '100%'}}>{story()}</div>)
+.addDecorator(story => <div style={{color: '#222', backgroundColor: '#fff', width: '100%'}}>{story()}</div>)
 .add('Taxonomies, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)}/>)
 .add('Taxonomies, with query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} searchText='Cash'/>)
-.add('Taxonomy selected, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1}/>)
+.add('Taxonomy selected, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={17001}/>)
 .add('Taxonomy selected, longer query', () => <TaxonomySearch
-    {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1}
+    {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1001}
     searchText={'Antidisestablishmentarianism taxation rebate calculated according to the Antidisestablishmentarianism '
       + 'Taxation Rebate Regulations (2019)'}/>)
 .add('100 results', () => <TaxonomySearch {...actions} taxonomies={taxonomies(100)}/>);

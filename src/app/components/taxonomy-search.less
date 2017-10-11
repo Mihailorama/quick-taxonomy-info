@@ -17,27 +17,23 @@
 @import (reference) '../styles/defs';
 
 .app-TaxonomySearch {
-  &-container {
-    flex-grow: 1;
+  flex-grow: 1;
 
-    padding: 10px 15px 25px 15px;
-    display: flex;
-    align-items: center;
-  }
+  padding: 10px 15px 25px 15px;
+  display: flex;
+  align-items: center;
+  color: @ink;
 
   &-select {
     flex-grow: 2;
     position: relative;
   }
 
-  &-select select {
+  &-select .react-selectize-control {
     position: relative;
     margin: 0;
-    border: 1px solid @primary;
-    border-radius: 3px;
     font-size: 18px;
     line-height: 20px;
-    padding: 9px 7px;
     text-align: center;
     background-color: white;
     width: 100%;
@@ -96,6 +92,7 @@
   &-select,
   &-search {
     position: relative;
+    width: 33%;
 
     &:before {
       content: '';
@@ -109,4 +106,208 @@
       box-shadow: 0 3px 20px 0 rgba(0,0,0,0.23);
     }
   }
+
+  &-noMatches {
+    color: @muted;
+    padding: 100px 6px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 300;
+
+    &-contactLink {
+      color: @muted;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+
+  &-missingTaxonomyLogo {
+    margin: 0 auto;
+    background-image: url(taxonomy-search-taxonomy-faded.svg);
+    background-size: 150px 170px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 170px;
+    height: 190px;
+  }
+
+  &-taxonomyHeading {
+    padding: 6px 6px 6px (6px + 12px + 4px);
+
+    font-size: 12px;
+    color: @muted;
+    background-image: url(taxonomy-search-taxonomy.svg);
+    background-position: 6px 6px;
+    background-repeat: no-repeat;
+    background-size: (20px * 15 / 25) 15px;
+  }
+
+  &-entryPoint {
+    padding: 6px 6px 6px (6px + 17px + 4px + @gap3);
+
+    font-size: 12px;
+    background-image: url(taxonomy-search-entry-point.svg);
+    background-position: (@gap3 + 6px) 6px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+
+    &:focus {
+      background-color: #AB0;
+    }
+
+    &:hover {
+      background-color: @btn-hover;
+      background-image: url(taxonomy-search-entry-point-lit.svg);
+    }
+  }
+
+  &-selectedTaxonomy {
+    margin-left: 12px;
+    color: @muted;
+  }
+
+  &-selectedEntryPoint {
+    flex-grow: 1;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      vertical-align: -7.5%;
+      width: 9px;
+      height: 15px;
+      background-image: url(taxonomy-search-separator.svg);
+      margin: 0 6px;
+    }
+  }
+}
+
+.react-selectize-control {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  border: 1px solid @primary;
+  border-radius: 3px;
+  cursor: pointer;
+
+  .open & {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-color: @primary-b;
+  }
+
+  .react-selectize-placeholder {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    color: @disabled;
+    ;
+  }
+
+  .react-selectize-search-field-and-selected-values {
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .resizable-input {
+    width: 0;
+    margin-left: 6px;
+
+    font-size: 1em;
+    background: none;
+    border: none;
+    outline: none;
+  }
+
+  .value-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .react-selectize-reset-button-container,
+  .react-selectize-toggle-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    cursor: pointer;
+  }
+
+  .react-selectize-reset-button-container {
+    width: 20px;
+    stroke: @ink;
+    transition: stroke 0.5s 0s ease;
+
+    &:hover {
+      stroke: @primary;
+    }
+  }
+
+  .react-selectize-toggle-button-container {
+    fill: #FFF;
+    background-color: @primary;
+    width: 38px;
+
+    &:hover {
+      background-color: @secondary;
+    }
+  }
+}
+
+.react-selectize {
+  .dropdown-menu-wrapper {
+    position: absolute;
+
+  }
+
+  .dropdown-menu {
+    z-index: 10;
+    box-sizing: border-box;
+    overflow: auto;
+    position: absolute;
+    max-height: 80vh;
+    padding-bottom: 4px;
+
+    color: @ink;
+    background-color: @paper;
+    border: 1px solid @primary;
+    border-top: none;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+
+    &.tethered {
+      min-width: 300px;
+    }
+    &:not(.tethered) {
+      width: 100%;
+    }
+
+    .option-wrapper {
+      cursor: pointer;
+      &:hover {
+        background-color: @btn-hover;
+      }
+      &:focus {
+        background-color: #AB0;
+      }
+    }
+
+    .simple-value {
+      padding: 6px 0;
+      background-color: #AB0;
+    }
+  }
+
+
+
 }

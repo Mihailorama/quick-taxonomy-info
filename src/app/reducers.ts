@@ -43,6 +43,11 @@ export function mainReducer(state: AppState | undefined, action: Action): AppSta
     }
     case STARTUP_INFO_RECEIVED: {
       const { user, apps, taxonomies } = action as StartupInfoReceivedAction;
+      taxonomies.sort((a, b) => {
+        const aa = a.name + a.version;
+        const bb = b.name + b.version;
+        return aa < bb ? -1 : aa > bb ? 1 : 0;
+      });
       return { ...state, phase: 'ready', user, apps, taxonomies };
     }
     case TAXONOMY_ENTRY_POINT_CHANGED: {

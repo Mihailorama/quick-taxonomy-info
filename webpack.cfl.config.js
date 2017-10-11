@@ -14,7 +14,7 @@ const host = process.env.npm_package_config_devserver_host;
 const port = parseInt(process.env.npm_package_config_devserver_port, 10);
 const https = process.env.npm_package_config_devserver_https === 'true';
 const baseUrl = `${https ? 'https' : 'http'}://${host}:${port}`;
-const apiProxyUrl = "http://lim.int.corefiling.com:8080"; // Revert to "process.env.npm_package_config_api_proxy" once deployed there;
+const apiProxyUrl = "http://lim.int.corefiling.com:8081"; // Revert to "process.env.npm_package_config_api_proxy" once deployed there;
 
 const proxyHeaders = {};
 oauthToken.load(token => proxyHeaders['Authorization'] = `Bearer ${token.access_token}`);
