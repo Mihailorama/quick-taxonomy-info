@@ -16,8 +16,9 @@
 
 import { AppState } from '../state';
 import { mainReducer } from '../reducers';
-import { searchResultsReceived, searchFailedAction, searchTextChangedAction, taxonomyEntryPointChangedAction } from '../actions';
-import { exampleSearchResults } from '../tests/model-examples';
+import { startupInfoReceivedAction,
+   searchResultsReceived, searchFailedAction, searchTextChangedAction, taxonomyEntryPointChangedAction } from '../actions';
+import { exampleUser, exampleApps, exampleSearchResults } from '../tests/model-examples';
 
 describe('mainReducer', () => {
   const state: AppState = mainReducer(undefined, undefined as any);
@@ -26,6 +27,23 @@ describe('mainReducer', () => {
     expect(state.selectedEntryPointId).toBeUndefined();
     expect(state.results).toBeUndefined();
   });
+
+  it('sorts taxonomies by name', () => {
+    const taxonomies = [
+      {id: 69, name: 'Alice', version: '2018-01-01', entryPoints: []},
+      {id: 13, name: 'Bob', version: 'final-rev4', entryPoints: []},
+      {id: 42, name: 'Alice', version: '2017-01-01', entryPoints: []},
+    ];
+
+    const newState = mainReducer(state, startupInfoReceivedAction(exampleUser, exampleApps, taxonomies));
+
+    expect(newState.taxonomies).toEqual([
+      {id: 42, name: 'Alice', version: '2017-01-01', entryPoints: []},
+      {id: 69, name: 'Alice', version: '2018-01-01', entryPoints: []},
+      {id: 13, name: 'Bob', version: 'final-rev4', entryPoints: []},
+    ]);
+  });
+
   it('updates entry point and clears results on entry point change', () => {
     state.results = exampleSearchResults;
     const newEntryPoint = 99;
