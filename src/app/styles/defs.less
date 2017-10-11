@@ -21,6 +21,8 @@
 @brand2: #002649;
 
 @primary: #69BEAB;
+@primary-b: #78D9C3;
+
 @primary2: #2C5173;
 @secondary: #2D5578;
 
@@ -42,12 +44,13 @@
 
 @paper: #FFF;
 @ink: #2D5578;
-@muted: fade(#000, 60%);
+@muted: fade(desaturate(@ink, 50%, relative), 60%);
+@disabled: fade(desaturate(@ink, 50%, relative), 40%);
 @btn-bd: fade(#000, 25%);
-@btn-hover: fade(@primary, 25%);
+@btn-hover: @primary-b;
 
 @table-paper: #F2F2F2;
-@table-border: #78D9C3;
+@table-border: @primary-b;
 @fail-paper: #F2F2F2;
 
 @outerPaper: @primary;
@@ -69,4 +72,3 @@
 @form-drop-shadow-top-gap: 20px;
 
 @status-ht: 208px;
-
