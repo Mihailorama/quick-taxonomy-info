@@ -294,11 +294,12 @@
 
     .option-wrapper {
       cursor: pointer;
+
       &:hover {
         background-color: @btn-hover;
       }
-      &:focus {
-        background-color: #AB0;
+      &.highlight {
+        box-shadow: inset @btn-hover 0 0 3px;
       }
     }
 
