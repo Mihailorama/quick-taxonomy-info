@@ -22,7 +22,7 @@ import { Action } from 'redux';
 import {
   FailedAction,
   STARTUP_INFO_RECEIVED, STARTUP_INFO_FAILED, StartupInfoReceivedAction,
-  TAXONOMY_ENTRY_POINT_CHANGED, TaxonomyEntryPointChangedAction,
+  TAXONOMY_ENTRY_POINT_CHANGED, TaxonomyEntryPointChangedAction, SEARCH,
   SEARCH_FAILED, SEARCH_RESULTS_RECEIVED, SearchResultsReceivedAction,
   SEARCH_TEXT_CHANGED, SearchTextChangedAction,
 } from './actions';
@@ -56,7 +56,10 @@ export function mainReducer(state: AppState | undefined, action: Action): AppSta
     }
     case SEARCH_TEXT_CHANGED: {
       const { searchText } = action as SearchTextChangedAction;
-      return { ...state, searchText, results: undefined };
+      return { ...state, searchText };
+    }
+    case SEARCH: {
+      return { ...state, results: undefined, phase: 'searching'};
     }
     case SEARCH_FAILED: {
       const { message } = action as FailedAction;
@@ -64,7 +67,7 @@ export function mainReducer(state: AppState | undefined, action: Action): AppSta
     }
     case SEARCH_RESULTS_RECEIVED: {
       const { results } = action as SearchResultsReceivedAction;
-      return { ...state, results };
+      return { ...state, phase: 'ready', results };
     }
     default:
       break;

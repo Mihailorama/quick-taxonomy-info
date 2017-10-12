@@ -21,7 +21,7 @@
 import { User, App } from './models';
 import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
-export type AppPhase = 'startup' | 'startupfailed' | 'searchfailed' | 'ready';
+export type AppPhase = 'startup' | 'startupfailed' | 'searching' | 'searchfailed' | 'ready';
 
 export interface AppState {
   phase: AppPhase;

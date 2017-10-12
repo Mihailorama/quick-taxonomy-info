@@ -17,7 +17,7 @@
 import { AppState } from '../state';
 import { mainReducer } from '../reducers';
 import { startupInfoReceivedAction,
-   searchResultsReceived, searchFailedAction, searchTextChangedAction, taxonomyEntryPointChangedAction } from '../actions';
+   searchResultsReceived, searchAction, searchFailedAction, searchTextChangedAction, taxonomyEntryPointChangedAction } from '../actions';
 import { exampleUser, exampleApps, exampleSearchResults } from '../tests/model-examples';
 
 describe('mainReducer', () => {
@@ -53,14 +53,13 @@ describe('mainReducer', () => {
     expect(newState.selectedEntryPointId).toEqual(newEntryPoint);
     expect(newState.results).toBeUndefined();
   });
-  it('updates text and clears results on search text change', () => {
+  it('updates text on search text change', () => {
     state.results = exampleSearchResults;
     const newText = 'lala land';
 
     const newState = mainReducer(state, searchTextChangedAction(newText));
 
     expect(newState.searchText).toEqual(newText);
-    expect(newState.results).toBeUndefined();
   });
   it('updates search results', () => {
     const newState = mainReducer(state, searchResultsReceived(exampleSearchResults));
@@ -71,5 +70,10 @@ describe('mainReducer', () => {
     const message = 'sad things';
     const newState = mainReducer(state, searchFailedAction(message));
     expect(newState.message).toEqual(message);
+  });
+  it('changes phase when search starts', () => {
+    state.phase = 'ready';
+    const newState = mainReducer(state, searchAction(1, ''));
+    expect(newState.phase).toEqual('searching');
   });
 });
