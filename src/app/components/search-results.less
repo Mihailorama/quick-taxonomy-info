@@ -17,18 +17,17 @@
  @import (reference) '../styles/defs';
 
 .app-SearchResults {
-    &-table {
-        border-radius: 3px;
-        border: 1px solid @primary;
-    }
+    border-radius: 3px;
+    border: 1px solid @primary;
 
-    &-table table {
+    table {
         width: 100%;
         color: @ink;
         border-collapse: collapse;
+        table-layout: fixed;
     }
 
-    &-table th {
+    th {
         background-color: @table-border;
         color: #fff;
         font-weight: 400;
@@ -39,25 +38,28 @@
         }
     }
 
-    &-table td {
+    td {
         border-top: 1px solid @table-border;
         border-left: 1px solid @table-border;
         font-size: 12px;
         line-height: 14px;
         padding: 8px 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
         &:first-child {
             border-left: 0;
         }
 
-        &.app-SearchResults-link-holder {
+        &.app-SearchResults-linkHolder {
             padding: 6px 8px;
             width: 18px;
         }
 
     }
 
-    &-table tr {
+    tr {
         &:nth-child(odd) {
             background-color: @paper;
         }
@@ -67,10 +69,35 @@
         }
     }
 
-    &-link {
+    &-logoLink {
         display: inline-block;
         width: 18px;
         height: 18px;
         background-image: url('yeti-logo.svg');
     }
+
+    &-link {
+        color: inherit;
+        text-decoration: inherit;
+    }
+
+    & &-noResults {
+        padding: @gap3 0;
+        text-align: center;
+        font-size: 18px;
+        color: @muted;
+    }
+
+    &-logoColumn {
+        width: 34px;
+    }
+
+    &-dataColumns:first-child {
+        width: ~"calc((100% - 34px) - 1 / 2 )";
+    }
+
+    &-dataColumns:last-child {
+        width: ~"calc((100% - 34px) + 1 / 2 )";
+    }
+
 }
