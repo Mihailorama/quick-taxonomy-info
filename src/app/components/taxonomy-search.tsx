@@ -62,7 +62,7 @@ export default function TaxonomySearch({ taxonomies, selectedEntryPointId, searc
           </div>}
           renderValue={({label}) => {
             const [first, rest] = label.split(/›/, 2);
-            return <span>
+            return <span className='app-TaxonomySearch-selected'>
               <span className='app-TaxonomySearch-selectedTaxonomy'>{first}</span>
               <span className='app-TaxonomySearch-selectedEntryPoint'>{rest}</span>
             </span>;

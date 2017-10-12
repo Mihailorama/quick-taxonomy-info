@@ -38,7 +38,7 @@ export default function SearchForm({
   onSearch, onSearchTextChange, onTaxonomyEntryPointChange,
 }: SearchFormProps): JSX.Element {
   return (
-    <div className='app-SearchForm-rectangle'>
+    <div className='app-SearchForm'>
       {taxonomies ? <TaxonomySearch
         taxonomies={taxonomies} selectedEntryPointId={selectedEntryPointId}
         onSearch={selectedEntryPointId ? () => onSearch(selectedEntryPointId, searchText || '') : undefined}
