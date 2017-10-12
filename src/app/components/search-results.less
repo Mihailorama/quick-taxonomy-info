@@ -47,9 +47,15 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        vertical-align: baseline;
 
         &:first-child {
             border-left: 0;
+            vertical-align: middle;
+        }
+
+        &:last-child {
+            white-space: normal;
         }
 
         &.app-SearchResults-linkHolder {
