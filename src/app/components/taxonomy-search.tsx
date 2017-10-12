@@ -53,7 +53,7 @@ export default function TaxonomySearch({ taxonomies, selectedEntryPointId, searc
           hideResetButton
           placeholder='Taxonomy'
           restoreOnBackspace={() => ''}
-          onValueChange={({value}) => onTaxonomyEntryPointChange(+value)}
+          onValueChange={e => onTaxonomyEntryPointChange(e ? e.value : undefined)}
           renderGroupTitle={(i, {title, version}) => <div key={i} className='app-TaxonomySearch-taxonomyHeading'>
             {title} <span className='app-TaxonomySearch-taxonomyVersion'>({version})</span>
           </div>}
