@@ -28,12 +28,14 @@ export default function SearchResults({results}: SearchResultsProps): JSX.Elemen
     <div className='app-SearchResults-table'>
       <table>
         <thead>
-          <th></th>
-          <th>Local Name</th>
-          <th>Concept</th>
+          <tr>
+            <th></th>
+            <th>Local Name</th>
+            <th>Concept</th>
+          </tr>
         </thead>
         <tbody>
-          {results.map(t => <tr>
+          {results.map(t => <tr key={t.localName}>
             <td className='app-SearchResults-link-holder'>
               <a className='app-SearchResults-link' target='_blank' href={t.conceptHref}></a>
             </td>

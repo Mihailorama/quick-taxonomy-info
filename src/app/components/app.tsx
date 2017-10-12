@@ -39,7 +39,8 @@ export default function App(props: AppProps): JSX.Element {
   const {message, phase, ...searchFormProps} = props;
   switch (phase) {
     case 'ready':
-      return <SearchForm {...searchFormProps}/>;
+    case 'searching':
+      return <SearchForm phase={phase} {...searchFormProps}/>;
     case 'startup':
     case 'startupfailed':
     default:
