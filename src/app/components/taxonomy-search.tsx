@@ -70,7 +70,8 @@ export default function TaxonomySearch({ taxonomies, selectedEntryPointId, searc
           renderNoResultsFound = {() => <div className='app-TaxonomySearch-noMatches'>
             <div className='app-TaxonomySearch-missingTaxonomyLogo'></div>
             No results found. <a className='app-TaxonomySearch-noMatches-contactLink'
-                href='https://www.corefiling.com/contactus/' target='_blank'>
+                href='https://www.corefiling.com/contactus/' target='_blank'
+                onMouseDown={e => { /* Prevent dropdown closing before link fires. */ e.stopPropagation(); e.preventDefault(); }}>
               Contact us</a>
             <br/> to find your Taxonomy.
           </div>}
