@@ -25,8 +25,12 @@ export interface SearchResultsProps {
 
 export default function SearchResults({results}: SearchResultsProps): JSX.Element {
   return (
-    <div className='app-SearchResults-table'>
+    <div className='app-SearchResults'>
       <table>
+        <colgroup>
+          <col className='app-SearchResults-logoColumn'/>
+          <col span={2} className='app-SearchResults-dataColumns'></col>
+        </colgroup>
         <thead>
           <tr>
             <th></th>
@@ -35,13 +39,18 @@ export default function SearchResults({results}: SearchResultsProps): JSX.Elemen
           </tr>
         </thead>
         <tbody>
-          {results.map(t => <tr key={t.localName}>
-            <td className='app-SearchResults-link-holder'>
-              <a className='app-SearchResults-link' target='_blank' href={t.conceptHref}></a>
+          {results.map((t, i) => <tr key={i}>
+            <td className='app-SearchResults-linkHolder'>
+              <a className='app-SearchResults-logoLink' target='_blank' href={t.conceptHref}></a>
             </td>
-            <td>{t.localName}</td>
-            <td>{t.label}</td>
+            <td>
+              <a className='app-SearchResults-link' target='_blank' href={t.conceptHref} title={t.localName}>{t.localName}</a>
+            </td>
+            <td>
+              <a className='app-SearchResults-link' target='_blank' href={t.conceptHref} title={t.label}>{t.label}</a>
+            </td>
           </tr>)}
+          {results.length === 0 && <tr><td className='app-SearchResults-noResults' colSpan={3}>No results.</td></tr>}
         </tbody>
       </table>
     </div>
