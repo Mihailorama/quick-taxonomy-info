@@ -52,6 +52,7 @@
         &:first-child {
             border-left: 0;
             vertical-align: middle;
+            text-overflow: clip;
         }
 
         &:last-child {
@@ -92,6 +93,12 @@
         text-align: center;
         font-size: 18px;
         color: @muted;
+    }
+
+    & &-maxResults {
+        padding: @gap 0;
+        text-align: center;
+        color: @ink;
     }
 
     &-logoColumn {

@@ -39,3 +39,5 @@ export interface App {
   iconHref?: string;  // Not SRC for reasons I am sure are excellent.
   features?: string[];  // Optional features enabled in this app.
 }
+
+export const MAX_RESULTS = 100;

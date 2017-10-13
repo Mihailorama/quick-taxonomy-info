@@ -18,6 +18,7 @@ import * as React from 'react';
 
 import './search-results.less';
 import { ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { MAX_RESULTS } from '../models';
 
 export interface SearchResultsProps {
   results: ConceptSearchMatch[];
@@ -50,6 +51,9 @@ export default function SearchResults({results}: SearchResultsProps): JSX.Elemen
               <a className='app-SearchResults-link' target='_blank' href={t.conceptHref} title={t.label}>{t.label}</a>
             </td>
           </tr>)}
+          {results.length === MAX_RESULTS && <tr>
+            <td className='app-SearchResults-maxResults' colSpan={3}>Limited to {MAX_RESULTS} results.</td>
+          </tr>}
           {results.length === 0 && <tr><td className='app-SearchResults-noResults' colSpan={3}>No results.</td></tr>}
         </tbody>
       </table>

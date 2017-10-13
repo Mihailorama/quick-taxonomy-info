@@ -23,7 +23,7 @@ import {
   SEARCH, searchResultsReceived, searchFailedAction, searchAction, SearchAction,
 } from './actions';
 import { apiFetchJson } from './api-fetch';
-import { App, User } from './models';
+import { App, User, MAX_RESULTS } from './models';
 import { APPS, USER, conceptsApi, taxonomiesApi } from './urls';
 import { Taxonomy } from '@cfl/bigfoot-search-service';
 
@@ -51,7 +51,7 @@ export function* searchSaga(action: SearchAction): IterableIterator<Effect> {
       search,
       // Hardcoded for now - paging to be tackled separately.
       pageNumber: 1,
-      pageSize: 100,
+      pageSize: MAX_RESULTS,
     };
     const results = yield call([conceptsApi, conceptsApi.searchConcepts], params);
     yield put(searchResultsReceived(results));
