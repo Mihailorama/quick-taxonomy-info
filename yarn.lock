@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@cfl/bigfoot-search-service@^0.1.0-dev.32396":
-  version "0.1.0-dev.32396"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/bigfoot-search-service/-/@cfl/bigfoot-search-service-0.1.0-dev.32396.tgz#4c63307d4c2e329a70163e41eaa71cba68382021"
+"@cfl/bigfoot-search-service@^1.0.1":
+  version "1.0.1"
+  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/bigfoot-search-service/-/bigfoot-search-service-1.0.1.tgz#f786edf5d87e9dec423359115c43b08c6b3e9a3e"
   dependencies:
     core-js "^2.4.0"
     isomorphic-fetch "^2.2.1"
@@ -13,9 +13,9 @@
   version "1.4.0"
   resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/react-components/-/@cfl/react-components-1.4.0.tgz#7da7dbaa78dc99b5f096c1d7753d416ef5e31d9e"
 
-"@cfl/tslint-config@^0.6.0":
-  version "0.6.0"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/tslint-config/-/@cfl/tslint-config-0.6.0.tgz#7ed9cfdb33b42764badc552d81e04dfceabf896e"
+"@cfl/tslint-config@^0.6.1":
+  version "0.6.1"
+  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/tslint-config/-/tslint-config-0.6.1.tgz#97557599980a1f863962ff719f9ef56543991916"
 
 "@hypnosphi/fuse.js@^3.0.9":
   version "3.0.9"
