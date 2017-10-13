@@ -15,13 +15,14 @@
  */
 
 import { Effect } from 'redux-saga';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import {
   startupInfoFailedAction, startupInfoReceivedAction,
   TaxonomyEntryPointChangedAction, TAXONOMY_ENTRY_POINT_CHANGED,
   SEARCH, searchResultsReceived, searchFailedAction, searchAction, SearchAction,
 } from './actions';
+import { AppState } from './state';
 import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
 import { APPS, USER, conceptsApi, taxonomiesApi } from './urls';
@@ -62,7 +63,8 @@ export function* searchSaga(action: SearchAction): IterableIterator<Effect> {
 
 export function* entryPointSaga(action: TaxonomyEntryPointChangedAction): IterableIterator<Effect> {
   if (action.entryPointId) {
-    yield put(searchAction(action.entryPointId, ''));
+    const searchText = yield select((state: AppState) => state.searchText);
+    yield put(searchAction(action.entryPointId, searchText));
   }
 }
 
