@@ -48,7 +48,7 @@
   "devDependencies": {
     "@cfl/bigfoot-search-service": "^0.1.0-dev.32396",
     "@cfl/react-components": "^1.4.0",
-    "@cfl/tslint-config": "^0.6.0",
+    "@cfl/tslint-config": "^0.6.1",
     "@janslow/ci-build-version": "^0.1.0",
     "@storybook/addon-actions": "^3.2.6",
     "@storybook/addon-links": "^3.2.6",
