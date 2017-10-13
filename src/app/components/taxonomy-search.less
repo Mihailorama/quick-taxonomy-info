@@ -137,7 +137,8 @@
     padding: 6px 6px 6px (6px + 12px + 4px);
 
     font-size: 12px;
-    color: @muted;
+    font-weight: bold;
+    color: @ink;
     background-image: url(taxonomy-search-taxonomy.svg);
     background-position: 6px 6px;
     background-repeat: no-repeat;
@@ -174,7 +175,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-left: 12px;
-    color: @muted;
+    font-weight: bold;
     white-space: nowrap;
   }
 
@@ -196,7 +197,7 @@
       background-size: 7px 12px;
       background-position: center;
       background-repeat: no-repeat;
-      margin: 0 6px;
+      margin: 0 6px 0 10px;
     }
   }
 }
@@ -222,6 +223,8 @@
     position: absolute;
     width: 100%;
     left: 0;
+    top: 0;
+    line-height: 38px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
