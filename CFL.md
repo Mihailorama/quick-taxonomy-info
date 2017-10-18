@@ -6,6 +6,13 @@ fakes up the gateway & authentication, you will need to copy the `.dev` director
 from the Beacon UI project.
 
 
+Configuring the API proxy
+-------------------------
+
+```
+$ npm config set @cfl/quick-taxonomy-info:api-proxy 'https://labs-api.cfl.io/'
+```
+
 Updating SSL certificates
 -------------------------
 
