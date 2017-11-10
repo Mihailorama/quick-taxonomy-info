@@ -34,10 +34,7 @@
     "devserver-port": 9091,
     "api-proxy": "https://platform-api.cfl.io/"
   },
-  "main": "bin/serve.js",
-  "bin": "bin/serve.js",
   "files": [
-    "bin",
     "www"
   ],
   "engines": {
