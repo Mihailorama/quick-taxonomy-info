@@ -18,6 +18,16 @@ yarn add @cfl/simple-platform-server --registry https://artifacts.int.corefiling
 ```
 
 
+Simple server
+-------------
+
+To use the internal Labs server instead of the public one:
+
+```bash
+echo CFL_DEV=t >> .env
+```
+
+
 Configuring the API proxy
 -------------------------
 

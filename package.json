@@ -19,12 +19,14 @@
     "test": "npm run test:tslint && npm run test:karma",
     "test:karma": "karma start karma.conf.js",
     "test:tslint": "tslint -t stylish -c tslint.json --project tsconfig.json",
-    "start": "webpack-dev-server --config webpack.cfl.config.js --progress --colors",
+    "dev:start": "webpack-dev-server --config webpack.cfl.config.js --progress --colors",
     "dev:karma": "npm run test:karma -- --single-run=false --debug --auto-watch",
     "set-build-version": "npm version \"$(ci-build-version -f package.json)\"",
     "test-debug": "npm run dev:karma",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "prestart": "npm run compile",
+    "start": "simple-platform-server -d www -a quick-taxonomy-info"
   },
   "config": {
     "devserver-https": true,
@@ -43,7 +45,7 @@
     "npm": ">=4.0.0"
   },
   "dependencies": {
-    "express": "^4.15.2"
+    "@cfl/simple-platform-server": "^0.1.1"
   },
   "devDependencies": {
     "@cfl/bigfoot-search-service": "^1.0.1",

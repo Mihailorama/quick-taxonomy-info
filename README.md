@@ -65,13 +65,23 @@ yarn test-debug
 ```
 
 
+## Simple server
+
+You need a client ID and secret obtained from CoreFiling. These are passed to the server as environment variables.
+
+```bash
+echo CLIENT_ID=… CLIENT_SECRET=… >> .env
+env `cat .env` yarn start
+```
+
+
 ## Development server
 
 You need `HOST` to be a name for your development machine for which SSL certificates are available.
 
 ```bash
 npm config set @cfl/quick-taxonomy-info:devserver-host $HOST
-npm start
+npm dev:start
 ```
 
 Then open `https://$HOST:9091/quick-taxonomy-info/`
