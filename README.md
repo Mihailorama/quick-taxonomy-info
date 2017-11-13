@@ -65,13 +65,37 @@ yarn test-debug
 ```
 
 
+## Simple server
+
+This uses a simple Express-based server to stand in for the facilities supplied
+by the gateway to the CoreFiling production cluster.
+
+To make this work, you need an OAuth2 client ID and  secret obtained from
+CoreFiling. These are passed in as environment variables. One way to do this is
+to create a file `.env` with these settings:
+
+```bash
+CLIENT_ID=id-of-client
+CLIENT_SECRET=secret
+```
+
+And pass it to `yarn start` as as follows:
+
+```bash
+env `cat .env` yarn start
+```
+
+Then open <http://localhost:8080/quick-taxonomy-info/>.
+
+
+
 ## Development server
 
 You need `HOST` to be a name for your development machine for which SSL certificates are available.
 
 ```bash
 npm config set @cfl/quick-taxonomy-info:devserver-host $HOST
-npm start
+npm dev:start
 ```
 
 Then open `https://$HOST:9091/quick-taxonomy-info/`

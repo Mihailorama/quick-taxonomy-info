@@ -17,6 +17,19 @@ of one of our packages, use a command like this:
 yarn add @cfl/simple-platform-server --registry https://artifacts.int.corefiling.com/api/npm/cfl-npm/
 ```
 
+Simple server
+-------------
+
+To use the simple server with the realm `dev` rather than `platform`, create a
+client in the Keycloak admin intgerface, then create a `.env` file like the
+following:
+
+```bash
+CLIENT_ID=id-of-your-client
+CLIENT_SECRET=secret
+CFL_DEV=t
+```
+
 
 Configuring the API proxy
 -------------------------
