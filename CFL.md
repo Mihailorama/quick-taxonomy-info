@@ -17,14 +17,17 @@ of one of our packages, use a command like this:
 yarn add @cfl/simple-platform-server --registry https://artifacts.int.corefiling.com/api/npm/cfl-npm/
 ```
 
-
 Simple server
 -------------
 
-To use the internal Labs server instead of the public one:
+To use the simple server with the realm `dev` rather than `platform`, create a
+client in the Keycloak admin intgerface, then create a `.env` file like the
+following:
 
 ```bash
-echo CFL_DEV=t >> .env
+CLIENT_ID=id-of-your-client
+CLIENT_SECRET=secret
+CFL_DEV=t
 ```
 
 
