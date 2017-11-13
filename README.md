@@ -85,7 +85,7 @@ And pass it to `yarn start` as as follows:
 env `cat .env` yarn start
 ```
 
-Then open <http://localhost:8080/quick-xbrl-validator/>.
+Then open <http://localhost:8080/quick-taxonomy-info/>.
 
 
 
