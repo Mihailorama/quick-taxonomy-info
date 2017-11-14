@@ -67,25 +67,20 @@ yarn test-debug
 
 ## Simple server
 
-This uses a simple Express-based server to stand in for the facilities supplied
-by the gateway to the CoreFiling production cluster.
-
-To make this work, you need an OAuth2 client ID and  secret obtained from
-CoreFiling. These are passed in as environment variables. One way to do this is
-to create a file `.env` with these settings:
+A [simple server][1] provides authentication on the CoreFiling True North
+Platform and adds credentials to API calls.
+You need an OAuth2 client ID and  secret obtained from
+CoreFiling. Pass these to the server as environment variables:
 
 ```bash
-CLIENT_ID=id-of-client
-CLIENT_SECRET=secret
+export CLIENT_ID=id-of-client
+export CLIENT_SECRET=secret
+yarn start
 ```
 
-And pass it to `yarn start` as follows:
+Then open <http://localhost:8080/quick-xbrl-validator/>.
 
-```bash
-env `cat .env` yarn start
-```
-
-Then open <http://localhost:8080/quick-taxonomy-info/>.
+  [1]: https://github.com/CoreFiling/simple-platform-server
 
 
 
