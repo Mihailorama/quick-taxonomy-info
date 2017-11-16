@@ -33,32 +33,40 @@ export interface TaxonomySearchProps {
   onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
 
-// topic-subtopic-section
-// We should be more permissive (e.g. +paragraph/-section)
-const usGaapCodificationCitation = /^(\w+)[-](\w+)[-](\w+)$/;
+function partsRegex(referenceParts: ReferencePart[]): RegExp {
+  const partRegex = '([\w]{1:3})';
+  return new RegExp(`^${partRegex}(?:[-]${partRegex}){1:${referenceParts.length - 1}`);
+}
+
+const fieldSpecs = [
+  ['Topic', 'SubTopic', 'Section', 'Paragraph', 'NOTREAL'],
+  ['Topic', 'SubTopic', 'Section', 'Paragraph'],
+  ['Topic', 'SubTopic', 'Section'],
+];
+
+function getParts(referenceParts: ReferencePart[]): ReferencePart[] | undefined {
+  const referencePartNames = referenceParts.map(part => part.localName);
+  const fieldNames = fieldSpecs.find(fields => fields.every(field => referencePartNames.indexOf(field) >= 0));
+  return fieldNames && fieldNames.map(field => referenceParts.find(part => part.localName === field)!);
+}
 
 function onSearchTextChangeLocal(
-  onQueryChange: (query: ConceptSearchQuery) => void, search: string, getPartId: (part: string) => number,
+  referenceParts: ReferencePart[], onQueryChange: (query: ConceptSearchQuery) => void, search: string,
 ): void {
-  const m = usGaapCodificationCitation.exec(search);
-  if (m) {
-    const [topic, subtopic, section] = m.slice(1, 4);
-    onQueryChange({
-      referenceParts: [
-        {
-          id: getPartId('Topic'),
-          value: topic,
-        },
-        {
-          id: getPartId('SubTopic'),
-          value: subtopic,
-        },
-        {
-          id: getPartId('Section'),
-          value: section,
-        },
-      ],
-    });
+  const parts = getParts(referenceParts);
+  let query;
+  if (parts) {
+    console.log(parts);
+    const matches = partsRegex(parts).exec(search);
+    if (matches) {
+      const values = matches.slice(1);
+      onQueryChange({
+        referenceParts: parts.map((part, index) => ({
+          id: part.id,
+          value: values[index],
+        })),
+      });
+    }
   }
   else {
     onQueryChange({
@@ -127,8 +135,7 @@ export default function TaxonomySearch(
           type='text'
           placeholder='Search'
           value={searchText}
-          onChange={e => onSearchTextChangeLocal(
-            onQueryChange, e.currentTarget.value, partName => referenceParts!.find(p => p.localName === partName)!.id) } />
+          onChange={e => onSearchTextChangeLocal(referenceParts!, onQueryChange, e.currentTarget.value) } />
         <input type='submit' className='app-TaxonomySearch-searchButton' value='' />
       </div>
     </form>
