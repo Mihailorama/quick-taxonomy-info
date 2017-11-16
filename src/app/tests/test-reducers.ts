@@ -16,31 +16,33 @@
 
 import { AppState } from '../state';
 import { mainReducer } from '../reducers';
-import { startupInfoReceivedAction,
-   searchResultsReceived, searchAction, searchFailedAction, searchTextChangedAction, taxonomyEntryPointChangedAction } from '../actions';
+import {
+  startupInfoReceivedAction,
+  searchResultsReceived, searchAction, searchFailedAction, queryChangedAction, taxonomyEntryPointChangedAction
+} from '../actions';
 import { exampleUser, exampleApps, exampleSearchResults } from '../tests/model-examples';
 
 describe('mainReducer', () => {
   const state: AppState = mainReducer(undefined, undefined as any);
   it('has sensible initial state', () => {
-    expect(state.searchText).toEqual('');
+    expect(state.query).toEqual({ search: '' });
     expect(state.selectedEntryPointId).toBeUndefined();
     expect(state.results).toBeUndefined();
   });
 
   it('sorts taxonomies by name', () => {
     const taxonomies = [
-      {id: 69, name: 'Alice', version: '2018-01-01', entryPoints: []},
-      {id: 13, name: 'Bob', version: 'final-rev4', entryPoints: []},
-      {id: 42, name: 'Alice', version: '2017-01-01', entryPoints: []},
+      { id: 69, name: 'Alice', version: '2018-01-01', entryPoints: [] },
+      { id: 13, name: 'Bob', version: 'final-rev4', entryPoints: [] },
+      { id: 42, name: 'Alice', version: '2017-01-01', entryPoints: [] },
     ];
 
     const newState = mainReducer(state, startupInfoReceivedAction(exampleUser, exampleApps, taxonomies));
 
     expect(newState.taxonomies).toEqual([
-      {id: 42, name: 'Alice', version: '2017-01-01', entryPoints: []},
-      {id: 69, name: 'Alice', version: '2018-01-01', entryPoints: []},
-      {id: 13, name: 'Bob', version: 'final-rev4', entryPoints: []},
+      { id: 42, name: 'Alice', version: '2017-01-01', entryPoints: [] },
+      { id: 69, name: 'Alice', version: '2018-01-01', entryPoints: [] },
+      { id: 13, name: 'Bob', version: 'final-rev4', entryPoints: [] },
     ]);
   });
 
@@ -53,27 +55,49 @@ describe('mainReducer', () => {
     expect(newState.selectedEntryPointId).toEqual(newEntryPoint);
     expect(newState.results).toBeUndefined();
   });
-  it('updates text on search text change', () => {
+
+  it('updates query on search text change', () => {
     state.results = exampleSearchResults;
-    const newText = 'lala land';
+    const newQuery = {
+      search: 'lala land',
+    };
 
-    const newState = mainReducer(state, searchTextChangedAction(newText));
+    const newState = mainReducer(state, queryChangedAction(newQuery));
 
-    expect(newState.searchText).toEqual(newText);
+    expect(newState.query).toEqual(newQuery);
   });
+
+  it('updates query on ref part change', () => {
+    state.results = exampleSearchResults;
+    const newQuery = {
+      referenceParts: [
+        {
+          id: 88,
+          value: 'foo',
+        },
+      ],
+    };
+
+    const newState = mainReducer(state, queryChangedAction(newQuery));
+
+    expect(newState.query).toEqual(newQuery);
+  });
+
   it('updates search results', () => {
     const newState = mainReducer(state, searchResultsReceived(exampleSearchResults));
 
     expect(newState.results).toEqual(exampleSearchResults);
   });
+
   it('records message if search fails', () => {
     const message = 'sad things';
     const newState = mainReducer(state, searchFailedAction(message));
     expect(newState.message).toEqual(message);
   });
+
   it('changes phase when search starts', () => {
     state.phase = 'ready';
-    const newState = mainReducer(state, searchAction(1, ''));
+    const newState = mainReducer(state, searchAction(1, { search: '' }));
     expect(newState.phase).toEqual('searching');
   });
 });

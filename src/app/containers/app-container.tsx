@@ -21,8 +21,8 @@ import { connect, MapDispatchToProps } from 'react-redux';
 import { AppState, AppPhase } from '../state';
 import App from '../components/app';
 import AppBarContainer from '../corefiling/app-bar-container';
-import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
-import { taxonomyEntryPointChangedAction, searchAction, searchTextChangedAction } from '../actions';
+import { Taxonomy, ConceptSearchQuery, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { taxonomyEntryPointChangedAction, searchAction, queryChangedAction } from '../actions';
 
 type OwnProps = Props<AppContainer>;
 
@@ -31,14 +31,14 @@ interface PropsFromState {
   message?: string;
   taxonomies?: Taxonomy[];
   results?: ConceptSearchMatch[];
-  searchText: string;
+  query: ConceptSearchQuery;
   selectedEntryPointId?: number;
 }
 
 interface PropsFromDispatch {
   onTaxonomyEntryPointChange: typeof taxonomyEntryPointChangedAction;
   onSearch: typeof searchAction;
-  onSearchTextChange: typeof searchTextChangedAction;
+  onQueryChange: typeof queryChangedAction;
 }
 
 type AppContainerProps = OwnProps & PropsFromState & PropsFromDispatch;
@@ -47,8 +47,8 @@ class AppContainer extends Component<AppContainerProps> {
   render(): JSX.Element {
     const {
       message, phase,
-      onSearch, onSearchTextChange, onTaxonomyEntryPointChange,
-      results, searchText, selectedEntryPointId,
+      onSearch, onQueryChange, onTaxonomyEntryPointChange,
+      results, query, selectedEntryPointId,
       taxonomies} = this.props;
     return (
       <div>
@@ -57,10 +57,10 @@ class AppContainer extends Component<AppContainerProps> {
           message={message}
           onSearch={onSearch}
           onTaxonomyEntryPointChange={onTaxonomyEntryPointChange}
-          onSearchTextChange={onSearchTextChange}
+          onQueryChange={onQueryChange}
           phase={phase}
           results={results}
-          searchText={searchText}
+          query={query}
           selectedEntryPointId={selectedEntryPointId}
           taxonomies={taxonomies} />
       </div>
@@ -69,13 +69,13 @@ class AppContainer extends Component<AppContainerProps> {
 }
 
 function propsFromState(state: AppState): PropsFromState {
-  const { message, phase, results, searchText, selectedEntryPointId, taxonomies } = state;
-  return { message, phase, results, searchText, selectedEntryPointId, taxonomies };
+  const { message, phase, results, query, selectedEntryPointId, taxonomies } = state;
+  return { message, phase, results, query, selectedEntryPointId, taxonomies };
 }
 
 const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {
   onSearch: searchAction,
-  onSearchTextChange: searchTextChangedAction,
+  onQueryChange: queryChangedAction,
   onTaxonomyEntryPointChange: taxonomyEntryPointChangedAction,
 };
 

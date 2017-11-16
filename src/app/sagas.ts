@@ -45,7 +45,7 @@ export function* startupInfoSaga(): IterableIterator<Effect> {
 }
 
 export function* searchSaga(action: SearchAction): IterableIterator<Effect> {
-  const { entryPointId, search } = action;
+  const { entryPointId, query: search } = action;
   try {
     const params = {
       entryPointId,
@@ -54,7 +54,7 @@ export function* searchSaga(action: SearchAction): IterableIterator<Effect> {
       pageNumber: 1,
       pageSize: MAX_RESULTS,
     };
-    const results = yield call([conceptsApi, conceptsApi.searchConcepts], params);
+    const results = yield call([conceptsApi, conceptsApi.searchConceptDetailed], params);
     yield put(searchResultsReceived(results));
   } catch (res) {
     yield put(searchFailedAction(`Search failed (${res.message || res.statusText || res.status}).`));
@@ -63,8 +63,8 @@ export function* searchSaga(action: SearchAction): IterableIterator<Effect> {
 
 export function* entryPointSaga(action: TaxonomyEntryPointChangedAction): IterableIterator<Effect> {
   if (action.entryPointId) {
-    const searchText = yield select((state: AppState) => state.searchText);
-    yield put(searchAction(action.entryPointId, searchText));
+    const query = yield select((state: AppState) => state.query);
+    yield put(searchAction(action.entryPointId, query));
   }
 }
 

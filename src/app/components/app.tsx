@@ -17,7 +17,7 @@
 import * as React from 'react';
 
 import { AppPhase } from '../state';
-import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ConceptSearchQuery, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 import SearchForm from './search-form';
 
 import './app.less';
@@ -26,12 +26,12 @@ export interface AppProps {
   message?: string;
   phase: AppPhase;
   taxonomies?: Taxonomy[];
-  searchText: string;
+  query: ConceptSearchQuery;
   selectedEntryPointId?: number;
   results?: ConceptSearchMatch[];
 
-  onSearch: (entryPointId: number, search: string) => any;
-  onSearchTextChange: (search: string) => any;
+  onSearch: (entryPointId: number, query: ConceptSearchQuery) => any;
+  onQueryChange: (query: ConceptSearchQuery) => any;
   onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
 

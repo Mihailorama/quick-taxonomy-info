@@ -18,7 +18,7 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { SimpleSelect } from 'react-selectize';
 import { isUndefined } from 'util';
-import { Taxonomy } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
 
 import './taxonomy-search.less';
 
@@ -28,58 +28,95 @@ export interface TaxonomySearchProps {
   searchText?: string;
 
   onSearch?: () => any;
-  onSearchTextChange: (search: string) => any;
+  onQueryChange: (query: ConceptSearchQuery) => any;
   onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
 
+// topic-subtopic-section
+// We should be more permissive (e.g. +paragraph/-section)
+const usGaapCodificationCitation = /^(\w+)[-](\w+)[-](\w+)$/g;
+
+function onSearchTextChangeLocal(onQueryChange: (query: ConceptSearchQuery) => void, search: string, getPartId: (part: string) => number) {
+  const m = usGaapCodificationCitation.exec(search);
+  if (m) {
+    const [topic, subtopic, section] = m.slice(1, 4);
+    onQueryChange({
+      referenceParts: [
+        {
+          id: getPartId('topic'),
+          value: topic,
+        },
+        {
+          id: getPartId('subtopic'),
+          value: subtopic,
+        },
+        {
+          id: getPartId('section'),
+          value: section,
+        },
+      ],
+    });
+  }
+  else {
+    onQueryChange({
+      search,
+    });
+  }
+}
+
 export default function TaxonomySearch({ taxonomies, selectedEntryPointId, searchText,
-    onTaxonomyEntryPointChange, onSearchTextChange, onSearch }: TaxonomySearchProps): JSX.Element {
+  onTaxonomyEntryPointChange, onQueryChange, onSearch }: TaxonomySearchProps): JSX.Element {
   const hasTaxonomy = !isUndefined(selectedEntryPointId);
 
-  const groups = taxonomies.map(({id, name, version}) => ({groupId: id, title: name, version}));
+  const groups = taxonomies.map(({ id, name, version }) => ({ groupId: id, title: name, version }));
   const options = taxonomies.map(taxonomy => {
-    return taxonomy.entryPoints.map(({id, name}) => ({
+    return taxonomy.entryPoints.map(({ id, name }) => ({
       groupId: taxonomy.id,
       value: id,
-      label: `${taxonomy.name} (${taxonomy.version}) › ${name}`}));
+      label: `${taxonomy.name} (${taxonomy.version}) › ${name}`,
+    }));
   })
     .reduce((xs, ys) => xs.concat(ys), []);
   const selectedOption = selectedEntryPointId ? options.find(x => x.value === selectedEntryPointId) : undefined;
 
   return (
-    <form className='app-TaxonomySearch' onSubmit={e => {e.preventDefault(); if (onSearch) { onSearch(); }}}>
+    <form className='app-TaxonomySearch' onSubmit={e => { e.preventDefault(); if (onSearch) { onSearch(); } }}>
       <div className='app-TaxonomySearch-select'>
         <SimpleSelect value={selectedOption}
           hideResetButton
           placeholder='Taxonomy'
           restoreOnBackspace={() => ''}
           onValueChange={e => onTaxonomyEntryPointChange(e ? e.value : undefined)}
-          renderGroupTitle={(i, {title, version}) => <div key={i} className='app-TaxonomySearch-taxonomyHeading'>
+          renderGroupTitle={(i, { title, version }) => <div key={i} className='app-TaxonomySearch-taxonomyHeading'>
             {title} <span className='app-TaxonomySearch-taxonomyVersion'>({version})</span>
           </div>}
-          renderOption={({value, label}) => <div key={value} className='app-TaxonomySearch-entryPoint'>
+          renderOption={({ value, label }) => <div key={value} className='app-TaxonomySearch-entryPoint'>
             {label.replace(/^.* \(.*\) › /, '')}
           </div>}
-          renderValue={({label}) => {
+          renderValue={({ label }) => {
             const [first, rest] = label.split(/›/, 2);
             return <span className='app-TaxonomySearch-selected'>
               <span className='app-TaxonomySearch-selectedTaxonomy'>{first}</span>
               <span className='app-TaxonomySearch-selectedEntryPoint'>{rest}</span>
             </span>;
           }}
-          renderNoResultsFound = {() => <div className='app-TaxonomySearch-noMatches'>
+          renderNoResultsFound={() => <div className='app-TaxonomySearch-noMatches'>
             <div className='app-TaxonomySearch-missingTaxonomyLogo'></div>
             No results found. <a className='app-TaxonomySearch-noMatches-contactLink'
-                href='https://www.corefiling.com/contactus/' target='_blank'
-                onMouseDown={e => { /* Prevent dropdown closing before link fires. */ e.stopPropagation(); e.preventDefault(); }}>
+              href='https://www.corefiling.com/contactus/' target='_blank'
+              onMouseDown={e => { /* Prevent dropdown closing before link fires. */ e.stopPropagation(); e.preventDefault(); }}>
               Contact us</a>
-            <br/> to find your Taxonomy.
+            <br /> to find your Taxonomy.
           </div>}
-          groups={groups} options={options}/>
+          groups={groups} options={options} />
       </div>
-      <div className={classNames('app-TaxonomySearch-search', {'app-TaxonomySearch-searchEnabled': hasTaxonomy})}>
-        <input type='text' placeholder='Search' value={searchText} onChange={e => onSearchTextChange(e.currentTarget.value)}/>
-        <input type='submit' className='app-TaxonomySearch-searchButton' value=''/>
+      <div className={classNames('app-TaxonomySearch-search', { 'app-TaxonomySearch-searchEnabled': hasTaxonomy })}>
+        <input
+          type='text'
+          placeholder='Search'
+          value={searchText}
+          onChange={e => onSearchTextChangeLocal(onQueryChange, e.currentTarget.value, () => 1)} />
+        <input type='submit' className='app-TaxonomySearch-searchButton' value='' />
       </div>
     </form>
   );

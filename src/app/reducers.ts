@@ -24,7 +24,7 @@ import {
   STARTUP_INFO_RECEIVED, STARTUP_INFO_FAILED, StartupInfoReceivedAction,
   TAXONOMY_ENTRY_POINT_CHANGED, TaxonomyEntryPointChangedAction, SEARCH,
   SEARCH_FAILED, SEARCH_RESULTS_RECEIVED, SearchResultsReceivedAction,
-  SEARCH_TEXT_CHANGED, SearchTextChangedAction,
+  QUERY_CHANGED, QueryChangedAction,
 } from './actions';
 import { AppState } from './state';
 
@@ -32,7 +32,9 @@ export function mainReducer(state: AppState | undefined, action: Action): AppSta
   if (!state) {
     return {
       phase: 'startup',
-      searchText: '',
+      query: {
+        search: '',
+      },
     };
   }
 
@@ -54,9 +56,9 @@ export function mainReducer(state: AppState | undefined, action: Action): AppSta
       const { entryPointId } = action as TaxonomyEntryPointChangedAction;
       return { ...state, selectedEntryPointId: entryPointId, results: undefined };
     }
-    case SEARCH_TEXT_CHANGED: {
-      const { searchText } = action as SearchTextChangedAction;
-      return { ...state, searchText };
+    case QUERY_CHANGED: {
+      const { query } = action as QueryChangedAction;
+      return { ...state, query };
     }
     case SEARCH: {
       return { ...state, results: undefined, phase: 'searching'};
