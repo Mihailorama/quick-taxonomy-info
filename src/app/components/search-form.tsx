@@ -15,7 +15,7 @@
  */
 
 import * as React from 'react';
-import { Taxonomy, ConceptSearchQuery, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ReferencePart, ConceptSearchQuery, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
 import { AppPhase } from '../state';
 import TaxonomySearch from './taxonomy-search';
@@ -27,6 +27,7 @@ export interface SearchFormProps {
   taxonomies?: Taxonomy[];
   query: ConceptSearchQuery;
   selectedEntryPointId?: number;
+  referenceParts?: ReferencePart[];
   results?: ConceptSearchMatch[];
   phase: AppPhase;
 
@@ -36,13 +37,14 @@ export interface SearchFormProps {
 }
 
 export default function SearchForm({
-  phase, taxonomies, query, selectedEntryPointId, results,
+  phase, taxonomies, query, selectedEntryPointId, referenceParts, results,
   onSearch, onQueryChange, onTaxonomyEntryPointChange,
 }: SearchFormProps): JSX.Element {
   return (
     <div className='app-SearchForm'>
       {taxonomies ? <TaxonomySearch
         taxonomies={taxonomies} selectedEntryPointId={selectedEntryPointId}
+        referenceParts={referenceParts}
         onSearch={selectedEntryPointId ? () => onSearch(selectedEntryPointId, query) : undefined}
         onQueryChange={onQueryChange}
         onTaxonomyEntryPointChange={onTaxonomyEntryPointChange}

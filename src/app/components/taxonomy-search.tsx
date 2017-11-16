@@ -18,13 +18,14 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { SimpleSelect } from 'react-selectize';
 import { isUndefined } from 'util';
-import { Taxonomy, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ReferencePart, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
 
 import './taxonomy-search.less';
 
 export interface TaxonomySearchProps {
   taxonomies: Taxonomy[];
   selectedEntryPointId?: number;
+  referenceParts?: ReferencePart[];
   searchText?: string;
 
   onSearch?: () => any;
@@ -34,24 +35,26 @@ export interface TaxonomySearchProps {
 
 // topic-subtopic-section
 // We should be more permissive (e.g. +paragraph/-section)
-const usGaapCodificationCitation = /^(\w+)[-](\w+)[-](\w+)$/g;
+const usGaapCodificationCitation = /^(\w+)[-](\w+)[-](\w+)$/;
 
-function onSearchTextChangeLocal(onQueryChange: (query: ConceptSearchQuery) => void, search: string, getPartId: (part: string) => number) {
+function onSearchTextChangeLocal(
+  onQueryChange: (query: ConceptSearchQuery) => void, search: string, getPartId: (part: string) => number,
+): void {
   const m = usGaapCodificationCitation.exec(search);
   if (m) {
     const [topic, subtopic, section] = m.slice(1, 4);
     onQueryChange({
       referenceParts: [
         {
-          id: getPartId('topic'),
+          id: getPartId('Topic'),
           value: topic,
         },
         {
-          id: getPartId('subtopic'),
+          id: getPartId('SubTopic'),
           value: subtopic,
         },
         {
-          id: getPartId('section'),
+          id: getPartId('Section'),
           value: section,
         },
       ],
@@ -64,9 +67,18 @@ function onSearchTextChangeLocal(onQueryChange: (query: ConceptSearchQuery) => v
   }
 }
 
-export default function TaxonomySearch({ taxonomies, selectedEntryPointId, searchText,
-  onTaxonomyEntryPointChange, onQueryChange, onSearch }: TaxonomySearchProps): JSX.Element {
-  const hasTaxonomy = !isUndefined(selectedEntryPointId);
+export default function TaxonomySearch(
+  {
+    taxonomies,
+    selectedEntryPointId,
+    referenceParts,
+    searchText,
+    onTaxonomyEntryPointChange,
+    onQueryChange,
+    onSearch,
+  }: TaxonomySearchProps): JSX.Element {
+
+  const searchEnabled = !isUndefined(selectedEntryPointId) && !isUndefined(referenceParts);
 
   const groups = taxonomies.map(({ id, name, version }) => ({ groupId: id, title: name, version }));
   const options = taxonomies.map(taxonomy => {
@@ -110,12 +122,13 @@ export default function TaxonomySearch({ taxonomies, selectedEntryPointId, searc
           </div>}
           groups={groups} options={options} />
       </div>
-      <div className={classNames('app-TaxonomySearch-search', { 'app-TaxonomySearch-searchEnabled': hasTaxonomy })}>
+      <div className={classNames('app-TaxonomySearch-search', { 'app-TaxonomySearch-searchEnabled': searchEnabled })}>
         <input
           type='text'
           placeholder='Search'
           value={searchText}
-          onChange={e => onSearchTextChangeLocal(onQueryChange, e.currentTarget.value, () => 1)} />
+          onChange={e => onSearchTextChangeLocal(
+            onQueryChange, e.currentTarget.value, partName => referenceParts!.find(p => p.localName === partName)!.id) } />
         <input type='submit' className='app-TaxonomySearch-searchButton' value='' />
       </div>
     </form>

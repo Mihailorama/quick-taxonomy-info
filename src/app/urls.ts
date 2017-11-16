@@ -17,7 +17,7 @@
 import * as uriTemplates from 'uri-templates';
 
 import { App } from './models';
-import { ConceptsApi, TaxonomiesApi } from '@cfl/bigfoot-search-service';
+import { ConceptsApi, TaxonomiesApi, ReferencepartsApi } from '@cfl/bigfoot-search-service';
 import { apiFetch } from './api-fetch';
 
 export const USER = '/api/user';
@@ -29,6 +29,7 @@ const APP_HELP = uriTemplates('{+base}static/user-guide.html');
 
 const baseUrl = '/api/bigfoot-search-service/v1/';
 export const taxonomiesApi = new TaxonomiesApi(apiFetch, baseUrl);
+export const referencePartsApi = new ReferencepartsApi(apiFetch, baseUrl);
 export const conceptsApi = new ConceptsApi(apiFetch, baseUrl);
 
 export const appHome = ({href}: App) => APP_HOME.fillFromObject({base: href});

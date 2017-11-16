@@ -21,7 +21,7 @@ import { connect, MapDispatchToProps } from 'react-redux';
 import { AppState, AppPhase } from '../state';
 import App from '../components/app';
 import AppBarContainer from '../corefiling/app-bar-container';
-import { Taxonomy, ConceptSearchQuery, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ReferencePart, ConceptSearchQuery, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 import { taxonomyEntryPointChangedAction, searchAction, queryChangedAction } from '../actions';
 
 type OwnProps = Props<AppContainer>;
@@ -33,6 +33,7 @@ interface PropsFromState {
   results?: ConceptSearchMatch[];
   query: ConceptSearchQuery;
   selectedEntryPointId?: number;
+  selectedEntryPointReferenceParts?: ReferencePart[];
 }
 
 interface PropsFromDispatch {
@@ -48,7 +49,7 @@ class AppContainer extends Component<AppContainerProps> {
     const {
       message, phase,
       onSearch, onQueryChange, onTaxonomyEntryPointChange,
-      results, query, selectedEntryPointId,
+      results, query, selectedEntryPointId, selectedEntryPointReferenceParts,
       taxonomies} = this.props;
     return (
       <div>
@@ -62,6 +63,7 @@ class AppContainer extends Component<AppContainerProps> {
           results={results}
           query={query}
           selectedEntryPointId={selectedEntryPointId}
+          referenceParts={selectedEntryPointReferenceParts}
           taxonomies={taxonomies} />
       </div>
     );
@@ -69,8 +71,8 @@ class AppContainer extends Component<AppContainerProps> {
 }
 
 function propsFromState(state: AppState): PropsFromState {
-  const { message, phase, results, query, selectedEntryPointId, taxonomies } = state;
-  return { message, phase, results, query, selectedEntryPointId, taxonomies };
+  const { message, phase, results, query, selectedEntryPointId, selectedEntryPointReferenceParts, taxonomies } = state;
+  return { message, phase, results, query, selectedEntryPointId, selectedEntryPointReferenceParts, taxonomies };
 }
 
 const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {

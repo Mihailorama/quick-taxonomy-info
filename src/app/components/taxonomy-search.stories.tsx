@@ -41,9 +41,9 @@ const taxonomies = (count: number): Taxonomy[] => {
     .map((_, i) => taxonomy(`Taxonomy ${createName(i)}`));
 };
 
-const actions: Pick<TaxonomySearchProps, 'onSearch' | 'onSearchTextChange' | 'onTaxonomyEntryPointChange'> = {
+const actions: Pick<TaxonomySearchProps, 'onSearch' | 'onQueryChange' | 'onTaxonomyEntryPointChange'> = {
   onSearch: action('onSearch'),
-  onSearchTextChange: action('onSearchTextChange'),
+  onQueryChange: action('onQueryChange'),
   onTaxonomyEntryPointChange: action('onTaxonomyEntryPointChange'),
 };
 

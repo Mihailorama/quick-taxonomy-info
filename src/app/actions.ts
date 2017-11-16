@@ -20,13 +20,15 @@
 import { Action } from 'redux';
 
 import { App, User } from './models';
-import { Taxonomy, ConceptSearchMatch, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ReferencePart, ConceptSearchMatch, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
 
 export const STARTUP_INFO_RECEIVED = 'STARTUP_INFO_RECEIVED';
 export const STARTUP_INFO_FAILED = 'STARTUP_INFO_FAILED';
 
 export const SEARCH = 'SEARCH';
 export const TAXONOMY_ENTRY_POINT_CHANGED = 'TAXONOMY_ENTRY_POINT_CHANGED';
+export const REFERENCE_PARTS = 'REFERENCE_PARTS';
+export const REFERENCE_PARTS_RECEIVED = 'REFERENCE_PARTS_RECEIVED';
 export const SEARCH_RESULTS_RECEIVED = 'SEARCH_RESULTS_RECEIVED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const QUERY_CHANGED = 'QUERY_CHANGED';
@@ -55,6 +57,24 @@ export interface TaxonomyEntryPointChangedAction extends Action {
 
 export function taxonomyEntryPointChangedAction(entryPointId: number): TaxonomyEntryPointChangedAction {
   return {type: TAXONOMY_ENTRY_POINT_CHANGED, entryPointId};
+}
+
+export interface ReferencePartsAction extends Action {
+  entryPointId: number;
+}
+
+export function referencePartsAction(entryPointId: number): ReferencePartsAction {
+  return {type: REFERENCE_PARTS, entryPointId};
+}
+
+export interface ReferencePartsReceivedAction extends Action {
+  entryPointId: number;
+
+  referenceParts: ReferencePart[];
+}
+
+export function referencePartsReceivedAction(entryPointId: number, referenceParts: ReferencePart[]): ReferencePartsReceivedAction {
+  return {type: REFERENCE_PARTS_RECEIVED, entryPointId, referenceParts};
 }
 
 export interface QueryChangedAction extends Action {
