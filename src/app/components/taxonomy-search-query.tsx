@@ -25,31 +25,39 @@ export interface TaxonomySearchQueryProps {
 }
 
 const fieldSpecs = [
-  ['Topic', 'SubTopic', 'Section', 'Paragraph'],
-  ['Topic', 'SubTopic', 'Section'],
+  {
+    parts: ['Topic', 'SubTopic', 'Section', 'Paragraph'],
+    example: '740-10-15',
+    pattern: /^([0-9]{3})-([0-9]{2,3})(?:-(S?[0-9]{2}))?(?:-([0-9]{1,2}))?$/,
+  },
 ];
 
-function partsRegex(taxonomyRefParts: ReferencePart[]): RegExp {
-  const partRegex = '([\\w]{1,3})';
-  return new RegExp(`^${partRegex}[-]${partRegex}${`(?:[-]${partRegex})?`.repeat(taxonomyRefParts.length - 2)}$`);
+interface ReferencePartsSpec {
+  example: string;
+  pattern: RegExp;
+  referenceParts: ReferencePart[];
 }
 
-function getMatchingParts(taxonomyRefParts: ReferencePart[]): ReferencePart[] | undefined {
+function getMatchingParts(taxonomyRefParts: ReferencePart[]): ReferencePartsSpec | undefined {
   const referencePartNames = taxonomyRefParts.map(part => part.localName);
-  const fieldNames = fieldSpecs.find(fields => fields.every(field => referencePartNames.indexOf(field) >= 0));
-  return fieldNames && fieldNames.map(field => taxonomyRefParts.find(part => part.localName === field)!);
+  const fieldSpec = fieldSpecs.find(fields => fields.parts.every(field => referencePartNames.indexOf(field) >= 0));
+  return fieldSpec && {
+    example: fieldSpec.example,
+    pattern: fieldSpec.pattern,
+    referenceParts: fieldSpec.parts.map(field => taxonomyRefParts.find(part => part.localName === field)!),
+  };
 }
 
 function toSearchQuery(taxonomyRefParts: ReferencePart[] | undefined, search: string): ConceptSearchQuery {
   if (taxonomyRefParts) {
     const parts = getMatchingParts(taxonomyRefParts);
     if (parts) {
-      const matches = partsRegex(parts).exec(search);
+      const matches = parts.pattern.exec(search);
       if (matches) {
         const values = matches.slice(1);
         return {
           referenceParts: values.map((value, index) => ({
-            id: parts[index].id,
+            id: parts.referenceParts[index].id,
             value,
           })).filter(part => part.value),
         };
@@ -62,7 +70,7 @@ function toSearchQuery(taxonomyRefParts: ReferencePart[] | undefined, search: st
 function placeholderText(taxonomyRefParts?: ReferencePart[]): string {
   const parts = taxonomyRefParts && getMatchingParts(taxonomyRefParts);
   if (parts) {
-    return 'Search for text or codification reference';
+    return `Search for text or codification reference (e.g. ${parts.example})`;
   }
   return 'Search for text';
 }
