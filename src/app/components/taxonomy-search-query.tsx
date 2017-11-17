@@ -51,7 +51,7 @@ function toSearchQuery(taxonomyRefParts: ReferencePart[] | undefined, search: st
           referenceParts: values.map((value, index) => ({
             id: parts[index].id,
             value,
-          })),
+          })).filter(part => part.value),
         };
       }
     }
