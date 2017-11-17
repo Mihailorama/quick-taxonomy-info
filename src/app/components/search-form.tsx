@@ -49,7 +49,7 @@ export default function SearchForm({
         onSearch={selectedEntryPointId ? () => onSearch(selectedEntryPointId, query) : undefined}
         onQueryChange={onQueryChange}
         onTaxonomyEntryPointChange={onTaxonomyEntryPointChange}
-      /> : 'Loading ….'}
+      /> : 'Loading …'}
       {results && <SearchResults results={results}/>}
       {!selectedEntryPointId && phase === 'ready' && <div className='app-SearchForm-prompt'>Please select a taxonomy to search.</div>}
       {phase === 'searching' && <div className='app-SearchForm-loading'></div>}

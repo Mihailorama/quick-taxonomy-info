@@ -49,11 +49,24 @@ const actions: Pick<TaxonomySearchProps, 'onSearch' | 'onQueryChange' | 'onTaxon
 
 storiesOf('TaxonomySearch', module)
 .addDecorator(story => <div style={{color: '#222', backgroundColor: '#fff', width: '100%'}}>{story()}</div>)
-.add('Taxonomies, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)}/>)
-.add('Taxonomies, with query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} searchText='Cash'/>)
-.add('Taxonomy selected, no query', () => <TaxonomySearch {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={17001}/>)
+.add('Taxonomies, no query', () => <TaxonomySearch
+    {...actions} taxonomies={taxonomies(5)} query={{}}/>)
+.add('Taxonomies, with query', () => <TaxonomySearch
+    {...actions} taxonomies={taxonomies(5)} query={{search: 'Cash'}}/>)
+.add('Taxonomy selected, no query', () => <TaxonomySearch
+    {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={17001} query={{}}/>)
 .add('Taxonomy selected, longer query', () => <TaxonomySearch
     {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={1001}
-    searchText={'Antidisestablishmentarianism taxation rebate calculated according to the Antidisestablishmentarianism '
-      + 'Taxation Rebate Regulations (2019)'}/>)
-.add('100 results', () => <TaxonomySearch {...actions} taxonomies={taxonomies(100)}/>);
+    query={{search: 'Antidisestablishmentarianism taxation rebate calculated according to the Antidisestablishmentarianism '
+      + 'Taxation Rebate Regulations (2019)'}}/>)
+.add('Taxonomy selected, with reference parts', () => <TaxonomySearch
+    {...actions} taxonomies={taxonomies(5)} selectedEntryPointId={17001} query={{
+      search: '123-45-67',
+      referenceParts: [{id: 1, value: '123'}, {id: 2, value: '45'}, {id: 3, value: '67'}]}}
+    referenceParts={[
+      {id: 1, localName: 'Topic', namespace: 'ns'},
+      {id: 2, localName: 'SubTopic', namespace: 'ns'},
+      {id: 3, localName: 'Section', namespace: 'ns'},
+      {id: 4, localName: 'SubSection', namespace: 'ns'}]}/>)
+.add('100 results', () => <TaxonomySearch
+    {...actions} taxonomies={taxonomies(100)} query={{}}/>);

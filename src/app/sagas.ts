@@ -35,7 +35,7 @@ import { AppState } from './state';
 import { apiFetchJson } from './api-fetch';
 import { App, User, MAX_RESULTS } from './models';
 import { APPS, USER, conceptsApi, taxonomiesApi, referencePartsApi } from './urls';
-import { Taxonomy } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
 
 /**
  * Fetch the information needed at startup. If this fails we cannot show the app.
@@ -68,8 +68,14 @@ export function* referencePartsSaga(action: TaxonomyEntryPointChangedAction): It
       };
       const referenceParts = yield call([referencePartsApi, referencePartsApi.getReferenceParts], params);
       yield put(referencePartsReceivedAction(entryPointId, referenceParts));
-      const query = yield select((state: AppState) => state.query);
-      yield put(searchAction(entryPointId, query));
+      const query: ConceptSearchQuery = yield select((state: AppState) => state.query);
+      // Hack until we accept both:
+      if (query.referenceParts) {
+        yield put(searchAction(entryPointId, {referenceParts: query.referenceParts}));
+      }
+      else {
+        yield put(searchAction(entryPointId, query));
+      }
     } catch (res) {
       yield put(startupInfoFailedAction(`Entry point selection failed (${res.message || res.statusText || res.status}).`));
     }

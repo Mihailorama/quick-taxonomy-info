@@ -56,6 +56,7 @@ function toSearchQuery(taxonomyRefParts: ReferencePart[] | undefined, search: st
       if (matches) {
         const values = matches.slice(1);
         return {
+          search,
           referenceParts: values.map((value, index) => ({
             id: parts.referenceParts[index].id,
             value,
