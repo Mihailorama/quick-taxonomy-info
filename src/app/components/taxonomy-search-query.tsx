@@ -31,7 +31,7 @@ const fieldSpecs = [
 
 function partsRegex(taxonomyRefParts: ReferencePart[]): RegExp {
   const partRegex = '([\\w]{1,3})';
-  return new RegExp(`^${partRegex}(?:[-]${partRegex}){1,${taxonomyRefParts.length - 1}}$`);
+  return new RegExp(`^${partRegex}[-]${partRegex}${`(?:[-]${partRegex})?`.repeat(taxonomyRefParts.length - 2)}$`);
 }
 
 function getMatchingParts(taxonomyRefParts: ReferencePart[]): ReferencePart[] | undefined {
