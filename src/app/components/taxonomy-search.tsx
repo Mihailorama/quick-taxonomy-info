@@ -20,6 +20,8 @@ import { SimpleSelect } from 'react-selectize';
 import { isUndefined } from 'util';
 import { Taxonomy, ReferencePart, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
 
+import TaxonomySearchQuery from './taxonomy-search-query';
+
 import './taxonomy-search.less';
 
 export interface TaxonomySearchProps {
@@ -32,49 +34,6 @@ export interface TaxonomySearchProps {
   onQueryChange: (query: ConceptSearchQuery) => any;
   onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
-
-function partsRegex(referenceParts: ReferencePart[]): RegExp {
-  const partRegex = '([\w]{1:3})';
-  return new RegExp(`^${partRegex}(?:[-]${partRegex}){1:${referenceParts.length - 1}`);
-}
-
-const fieldSpecs = [
-  ['Topic', 'SubTopic', 'Section', 'Paragraph', 'NOTREAL'],
-  ['Topic', 'SubTopic', 'Section', 'Paragraph'],
-  ['Topic', 'SubTopic', 'Section'],
-];
-
-function getParts(referenceParts: ReferencePart[]): ReferencePart[] | undefined {
-  const referencePartNames = referenceParts.map(part => part.localName);
-  const fieldNames = fieldSpecs.find(fields => fields.every(field => referencePartNames.indexOf(field) >= 0));
-  return fieldNames && fieldNames.map(field => referenceParts.find(part => part.localName === field)!);
-}
-
-function onSearchTextChangeLocal(
-  referenceParts: ReferencePart[], onQueryChange: (query: ConceptSearchQuery) => void, search: string,
-): void {
-  const parts = getParts(referenceParts);
-  let query;
-  if (parts) {
-    console.log(parts);
-    const matches = partsRegex(parts).exec(search);
-    if (matches) {
-      const values = matches.slice(1);
-      onQueryChange({
-        referenceParts: parts.map((part, index) => ({
-          id: part.id,
-          value: values[index],
-        })),
-      });
-    }
-  }
-  else {
-    onQueryChange({
-      search,
-    });
-  }
-}
-
 export default function TaxonomySearch(
   {
     taxonomies,
@@ -131,11 +90,7 @@ export default function TaxonomySearch(
           groups={groups} options={options} />
       </div>
       <div className={classNames('app-TaxonomySearch-search', { 'app-TaxonomySearch-searchEnabled': searchEnabled })}>
-        <input
-          type='text'
-          placeholder='Search'
-          value={searchText}
-          onChange={e => onSearchTextChangeLocal(referenceParts!, onQueryChange, e.currentTarget.value) } />
+        <TaxonomySearchQuery searchText={searchText} onQueryChange={onQueryChange} referenceParts={referenceParts} />
         <input type='submit' className='app-TaxonomySearch-searchButton' value='' />
       </div>
     </form>
