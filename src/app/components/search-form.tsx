@@ -45,6 +45,7 @@ export default function SearchForm({
       {taxonomies ? <TaxonomySearch
         taxonomies={taxonomies} selectedEntryPointId={selectedEntryPointId}
         referenceParts={referenceParts}
+        query={query}
         onSearch={selectedEntryPointId ? () => onSearch(selectedEntryPointId, query) : undefined}
         onQueryChange={onQueryChange}
         onTaxonomyEntryPointChange={onTaxonomyEntryPointChange}

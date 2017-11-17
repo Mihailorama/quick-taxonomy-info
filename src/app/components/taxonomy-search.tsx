@@ -28,7 +28,7 @@ export interface TaxonomySearchProps {
   taxonomies: Taxonomy[];
   selectedEntryPointId?: number;
   referenceParts?: ReferencePart[];
-  searchText?: string;
+  query: ConceptSearchQuery;
 
   onSearch?: () => any;
   onQueryChange: (query: ConceptSearchQuery) => any;
@@ -39,7 +39,7 @@ export default function TaxonomySearch(
     taxonomies,
     selectedEntryPointId,
     referenceParts,
-    searchText,
+    query,
     onTaxonomyEntryPointChange,
     onQueryChange,
     onSearch,
@@ -90,7 +90,7 @@ export default function TaxonomySearch(
           groups={groups} options={options} />
       </div>
       <div className={classNames('app-TaxonomySearch-search', { 'app-TaxonomySearch-searchEnabled': searchEnabled })}>
-        <TaxonomySearchQuery searchText={searchText} onQueryChange={onQueryChange} referenceParts={referenceParts} />
+        <TaxonomySearchQuery query={query} onQueryChange={onQueryChange} referenceParts={referenceParts} />
         <input type='submit' className='app-TaxonomySearch-searchButton' value='' />
       </div>
     </form>

@@ -20,7 +20,7 @@ import { ReferencePart, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
 
 export interface TaxonomySearchQueryProps {
   referenceParts?: ReferencePart[];
-  searchText?: string;
+  query: ConceptSearchQuery;
   onQueryChange: (query: ConceptSearchQuery) => any;
 }
 
@@ -76,19 +76,20 @@ function placeholderText(taxonomyRefParts?: ReferencePart[]): string {
 }
 
 export default class TaxonomySearchQuery extends React.Component<TaxonomySearchQueryProps> {
-  componentWillReceiveProps(newProps: Readonly<TaxonomySearchQueryProps>): any {
-    const {referenceParts, searchText, onQueryChange} = newProps;
-    if (searchText && this.props.referenceParts !== referenceParts) {
-      onQueryChange(toSearchQuery(referenceParts, searchText));
+
+  componentWillUpdate(nextProps: Readonly<TaxonomySearchQueryProps>): any {
+    const {referenceParts, query, onQueryChange} = nextProps;
+    if (query.search && this.props.referenceParts !== referenceParts) {
+      onQueryChange(toSearchQuery(referenceParts, query.search));
     }
   }
 
   render(): JSX.Element {
-    const {referenceParts, searchText, onQueryChange} = this.props;
+    const {referenceParts, query, onQueryChange} = this.props;
     return <input
       type='text'
       placeholder={placeholderText(referenceParts)}
-      value={searchText}
+      value={query.search}
       onChange={e => onQueryChange(toSearchQuery(referenceParts, e.currentTarget.value)) }
     />;
   }
