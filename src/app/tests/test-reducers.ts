@@ -18,7 +18,7 @@ import { AppState } from '../state';
 import { mainReducer } from '../reducers';
 import {
   startupInfoReceivedAction,
-  searchResultsReceived, searchAction, searchFailedAction, queryChangedAction, taxonomyEntryPointChangedAction
+  searchResultsReceived, searchAction, searchFailedAction, queryChangedAction, taxonomyEntryPointChangedAction,
 } from '../actions';
 import { exampleUser, exampleApps, exampleSearchResults } from '../tests/model-examples';
 
