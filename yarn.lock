@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@cfl/bigfoot-search-service@1.0.2-dev.37782":
-  version "1.0.2-dev.37782"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/bigfoot-search-service/-/@cfl/bigfoot-search-service-1.0.2-dev.37782.tgz#9a40511ab66a7eaf7cfb1d8354d7f9914b0edcaa"
+"@cfl/bigfoot-search-service@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@cfl/bigfoot-search-service/-/bigfoot-search-service-1.1.0.tgz#c31cd511af9cacf45b10f05044b8cde85a23af7f"
   dependencies:
     core-js "^2.4.0"
     isomorphic-fetch "^2.2.1"
