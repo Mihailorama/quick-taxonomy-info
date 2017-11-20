@@ -32,7 +32,7 @@
     "devserver-https": true,
     "devserver-host": "localhost",
     "devserver-port": 9091,
-    "api-proxy": "https://platform-api.cfl.io/"
+    "api-proxy": "https://labs-api.cfl.io/"
   },
   "files": [
     "www"
@@ -45,7 +45,7 @@
     "@cfl/simple-platform-server": "^1.0.0"
   },
   "devDependencies": {
-    "@cfl/bigfoot-search-service": "^1.0.1",
+    "@cfl/bigfoot-search-service": "1.0.2-dev.37782",
     "@cfl/react-components": "^1.4.2",
     "@cfl/tslint-config": "^0.6.1",
     "@janslow/ci-build-version": "^0.1.0",
