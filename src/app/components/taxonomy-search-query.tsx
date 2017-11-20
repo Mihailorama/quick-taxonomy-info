@@ -24,11 +24,13 @@ export interface TaxonomySearchQueryProps {
   onQueryChange: (query: ConceptSearchQuery) => any;
 }
 
+export const fasbCodificationRegex = /^([0-9]{3})-([0-9]{2,3})(?:-(S?[0-9]{2})(?:-([0-9]{1,4}))?)?$/;
+
 const fieldSpecs = [
   {
     parts: ['Topic', 'SubTopic', 'Section', 'Paragraph'],
     example: '740-10-15',
-    pattern: /^([0-9]{3})-([0-9]{2,3})(?:-(S?[0-9]{2}))?(?:-([0-9]{1,2}))?$/,
+    pattern: fasbCodificationRegex,
   },
 ];
 
@@ -48,7 +50,7 @@ function getMatchingParts(taxonomyRefParts: ReferencePart[]): ReferencePartsSpec
   };
 }
 
-function toSearchQuery(taxonomyRefParts: ReferencePart[] | undefined, search: string): ConceptSearchQuery {
+export function toSearchQuery(taxonomyRefParts: ReferencePart[] | undefined, search: string): ConceptSearchQuery {
   if (taxonomyRefParts) {
     const parts = getMatchingParts(taxonomyRefParts);
     if (parts) {
