@@ -77,16 +77,16 @@ export function* referencePartsSaga(action: TaxonomyEntryPointChangedAction): It
 }
 
 export function* searchSaga(action: SearchAction): IterableIterator<Effect> {
-  const { entryPointId, query: search } = action;
+  const { entryPointId, query } = action;
   try {
     const params = {
       entryPointId,
-      search,
+      query,
       // Hardcoded for now - paging to be tackled separately.
       pageNumber: 1,
       pageSize: MAX_RESULTS,
     };
-    const results = yield call([conceptsApi, conceptsApi.searchConceptDetailed], params);
+    const results = yield call([conceptsApi, conceptsApi.searchConceptsDetailed], params);
     yield put(searchResultsReceived(results));
   } catch (res) {
     yield put(searchFailedAction(`Search failed (${res.message || res.statusText || res.status}).`));
