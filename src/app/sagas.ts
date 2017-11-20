@@ -69,13 +69,7 @@ export function* referencePartsSaga(action: TaxonomyEntryPointChangedAction): It
       const referenceParts = yield call([referencePartsApi, referencePartsApi.getReferenceParts], params);
       yield put(referencePartsReceivedAction(entryPointId, referenceParts));
       const query: ConceptSearchQuery = yield select((state: AppState) => state.query);
-      // Hack until we accept both:
-      if (query.referenceParts) {
-        yield put(searchAction(entryPointId, {referenceParts: query.referenceParts}));
-      }
-      else {
-        yield put(searchAction(entryPointId, query));
-      }
+      yield put(searchAction(entryPointId, query));
     } catch (res) {
       yield put(startupInfoFailedAction(`Entry point selection failed (${res.message || res.statusText || res.status}).`));
     }
