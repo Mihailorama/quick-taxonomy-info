@@ -78,13 +78,7 @@ describe('taxonomy-search-query', () => {
     });
 
     it('does a normal search if the taxonomy does not have the necessary parts', () => {
-      const result = toSearchQuery(
-        [{
-          id: 1,
-          localName: 'foo',
-          namespace: 'bar',
-        }],
-        '740-10');
+      const result = toSearchQuery(examplarParts.slice(1, 3), '740-10');
 
       expect(result).toEqual({search: '740-10'});
     });
