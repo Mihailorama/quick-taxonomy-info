@@ -55,13 +55,13 @@ describe('searchSaga', () => {
   it('fetches search results', () => {
     const expectedParams = {
       entryPointId: 1,
-      search: { search: 'foo' },
+      query: { search: 'foo' },
       pageNumber: 1,
       pageSize: 100,
     };
 
     expect(saga.next().value).toEqual(
-      call([conceptsApi, conceptsApi.searchConceptDetailed], expectedParams),
+      call([conceptsApi, conceptsApi.searchConceptsDetailed], expectedParams),
     );
 
     const results: ConceptSearchMatch[] = exampleSearchResults;
