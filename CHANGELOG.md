@@ -1,5 +1,7 @@
 # Changelog
 
+## develop
+
 ## 1.1.0
 - Support reference part search for taxonomies with US GAAP reference parts.
   The search allows FASB codification references to be entered in dashed form.
