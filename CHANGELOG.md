@@ -1,6 +1,7 @@
 # Changelog
 
 ## develop
+- Upgrade simple-platform-server to 2.1.0.
 
 ## 1.1.0
 - Support reference part search for taxonomies with US GAAP reference parts.
