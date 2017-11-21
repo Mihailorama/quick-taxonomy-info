@@ -21,10 +21,19 @@ import { Action } from 'redux';
 
 import {
   FailedAction,
-  STARTUP_INFO_RECEIVED, STARTUP_INFO_FAILED, StartupInfoReceivedAction,
-  TAXONOMY_ENTRY_POINT_CHANGED, TaxonomyEntryPointChangedAction, SEARCH,
-  SEARCH_FAILED, SEARCH_RESULTS_RECEIVED, SearchResultsReceivedAction,
-  SEARCH_TEXT_CHANGED, SearchTextChangedAction,
+  STARTUP_INFO_RECEIVED,
+  STARTUP_INFO_FAILED,
+  StartupInfoReceivedAction,
+  TAXONOMY_ENTRY_POINT_CHANGED,
+  TaxonomyEntryPointChangedAction,
+  REFERENCE_PARTS_RECEIVED,
+  ReferencePartsReceivedAction,
+  SEARCH,
+  SEARCH_FAILED,
+  SEARCH_RESULTS_RECEIVED,
+  SearchResultsReceivedAction,
+  QUERY_CHANGED,
+  QueryChangedAction,
 } from './actions';
 import { AppState } from './state';
 
@@ -32,7 +41,9 @@ export function mainReducer(state: AppState | undefined, action: Action): AppSta
   if (!state) {
     return {
       phase: 'startup',
-      searchText: '',
+      query: {
+        search: '',
+      },
     };
   }
 
@@ -52,11 +63,20 @@ export function mainReducer(state: AppState | undefined, action: Action): AppSta
     }
     case TAXONOMY_ENTRY_POINT_CHANGED: {
       const { entryPointId } = action as TaxonomyEntryPointChangedAction;
-      return { ...state, selectedEntryPointId: entryPointId, results: undefined };
+      return { ...state, selectedEntryPointId: entryPointId, selectedEntryPointReferenceParts: undefined, results: undefined };
     }
-    case SEARCH_TEXT_CHANGED: {
-      const { searchText } = action as SearchTextChangedAction;
-      return { ...state, searchText };
+    case REFERENCE_PARTS_RECEIVED: {
+      const { entryPointId, referenceParts } = action as ReferencePartsReceivedAction;
+      if (state.selectedEntryPointId === entryPointId) {
+        return { ...state, selectedEntryPointReferenceParts: referenceParts };
+      }
+      else {
+        return state;
+      }
+    }
+    case QUERY_CHANGED: {
+      const { query } = action as QueryChangedAction;
+      return { ...state, query };
     }
     case SEARCH: {
       return { ...state, results: undefined, phase: 'searching'};

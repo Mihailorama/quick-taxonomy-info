@@ -6,6 +6,38 @@ fakes up the gateway & authentication, you will need to copy the `.dev` director
 from the Beacon UI project.
 
 
+Registry
+--------
+
+We need to make `yarn` use the public registry, not our proxy, so the `yarn.lock`
+makes sense outside out network. To temporarily use a locval development build
+of one of our packages, use a command like this:
+
+```shell
+yarn add @cfl/simple-platform-server --registry https://artifacts.int.corefiling.com/api/npm/cfl-npm/
+```
+
+Simple server
+-------------
+
+To use the simple server with the realm `dev` rather than `platform`, create a
+client in the Keycloak admin interface, then create a `.env` file like the
+following:
+
+```bash
+CLIENT_ID=id-of-your-client
+CLIENT_SECRET=secret
+CFL_DEV=t
+```
+
+
+Configuring the API proxy
+-------------------------
+
+```shell
+npm config set @cfl/quick-taxonomy-info:api-proxy 'https://labs-api.cfl.io/'
+```
+
 Updating SSL certificates
 -------------------------
 

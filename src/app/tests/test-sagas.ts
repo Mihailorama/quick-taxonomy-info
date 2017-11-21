@@ -49,19 +49,19 @@ describe('startupInfoSaga', () => {
 
 describe('searchSaga', () => {
 
-  const action: SearchAction = {type: SEARCH, entryPointId: 1, search: 'foo'};
+  const action: SearchAction = {type: SEARCH, entryPointId: 1, query: { search: 'foo' } };
   const saga = searchSaga(action);
 
   it('fetches search results', () => {
     const expectedParams = {
       entryPointId: 1,
-      search: 'foo',
+      query: { search: 'foo' },
       pageNumber: 1,
       pageSize: 100,
     };
 
     expect(saga.next().value).toEqual(
-      call([conceptsApi, conceptsApi.searchConcepts], expectedParams),
+      call([conceptsApi, conceptsApi.searchConceptsDetailed], expectedParams),
     );
 
     const results: ConceptSearchMatch[] = exampleSearchResults;

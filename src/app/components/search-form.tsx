@@ -15,7 +15,7 @@
  */
 
 import * as React from 'react';
-import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ReferencePart, ConceptSearchQuery, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
 import { AppPhase } from '../state';
 import TaxonomySearch from './taxonomy-search';
@@ -25,28 +25,31 @@ import './search-form.less';
 
 export interface SearchFormProps {
   taxonomies?: Taxonomy[];
-  searchText?: string;
+  query: ConceptSearchQuery;
   selectedEntryPointId?: number;
+  referenceParts?: ReferencePart[];
   results?: ConceptSearchMatch[];
   phase: AppPhase;
 
-  onSearch: (entryPointId: number, search: string) => any;
-  onSearchTextChange: (search: string) => any;
+  onSearch: (entryPointId: number, query: ConceptSearchQuery) => any;
+  onQueryChange: (query: ConceptSearchQuery) => any;
   onTaxonomyEntryPointChange: (entryPointId: number) => any;
 }
 
 export default function SearchForm({
-  phase, taxonomies, searchText, selectedEntryPointId, results,
-  onSearch, onSearchTextChange, onTaxonomyEntryPointChange,
+  phase, taxonomies, query, selectedEntryPointId, referenceParts, results,
+  onSearch, onQueryChange, onTaxonomyEntryPointChange,
 }: SearchFormProps): JSX.Element {
   return (
     <div className='app-SearchForm'>
       {taxonomies ? <TaxonomySearch
         taxonomies={taxonomies} selectedEntryPointId={selectedEntryPointId}
-        onSearch={selectedEntryPointId ? () => onSearch(selectedEntryPointId, searchText || '') : undefined}
-        onSearchTextChange={onSearchTextChange}
+        referenceParts={referenceParts}
+        query={query}
+        onSearch={selectedEntryPointId ? () => onSearch(selectedEntryPointId, query) : undefined}
+        onQueryChange={onQueryChange}
         onTaxonomyEntryPointChange={onTaxonomyEntryPointChange}
-      /> : 'Loading ….'}
+      /> : 'Loading …'}
       {results && <SearchResults results={results}/>}
       {!selectedEntryPointId && phase === 'ready' && <div className='app-SearchForm-prompt'>Please select a taxonomy to search.</div>}
       {phase === 'searching' && <div className='app-SearchForm-loading'></div>}

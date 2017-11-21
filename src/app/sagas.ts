@@ -18,15 +18,24 @@ import { Effect } from 'redux-saga';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import {
-  startupInfoFailedAction, startupInfoReceivedAction,
-  TaxonomyEntryPointChangedAction, TAXONOMY_ENTRY_POINT_CHANGED,
-  SEARCH, searchResultsReceived, searchFailedAction, searchAction, SearchAction,
+  startupInfoFailedAction,
+  startupInfoReceivedAction,
+  TaxonomyEntryPointChangedAction,
+  TAXONOMY_ENTRY_POINT_CHANGED,
+  referencePartsAction,
+  referencePartsReceivedAction,
+  REFERENCE_PARTS,
+  SEARCH,
+  searchResultsReceived,
+  searchFailedAction,
+  searchAction,
+  SearchAction,
 } from './actions';
 import { AppState } from './state';
 import { apiFetchJson } from './api-fetch';
 import { App, User, MAX_RESULTS } from './models';
-import { APPS, USER, conceptsApi, taxonomiesApi } from './urls';
-import { Taxonomy } from '@cfl/bigfoot-search-service';
+import { APPS, USER, conceptsApi, taxonomiesApi, referencePartsApi } from './urls';
+import { Taxonomy, ConceptSearchQuery } from '@cfl/bigfoot-search-service';
 
 /**
  * Fetch the information needed at startup. If this fails we cannot show the app.
@@ -44,27 +53,43 @@ export function* startupInfoSaga(): IterableIterator<Effect> {
   }
 }
 
+export function* entryPointSaga(action: TaxonomyEntryPointChangedAction): IterableIterator<Effect> {
+  if (action.entryPointId) {
+    yield put(referencePartsAction(action.entryPointId));
+  }
+}
+
+export function* referencePartsSaga(action: TaxonomyEntryPointChangedAction): IterableIterator<Effect> {
+  const { entryPointId } = action;
+  if (entryPointId) {
+    try {
+      const params = {
+        entryPointId,
+      };
+      const referenceParts = yield call([referencePartsApi, referencePartsApi.getReferenceParts], params);
+      yield put(referencePartsReceivedAction(entryPointId, referenceParts));
+      const query: ConceptSearchQuery = yield select((state: AppState) => state.query);
+      yield put(searchAction(entryPointId, query));
+    } catch (res) {
+      yield put(startupInfoFailedAction(`Entry point selection failed (${res.message || res.statusText || res.status}).`));
+    }
+  }
+}
+
 export function* searchSaga(action: SearchAction): IterableIterator<Effect> {
-  const { entryPointId, search } = action;
+  const { entryPointId, query } = action;
   try {
     const params = {
       entryPointId,
-      search,
+      query,
       // Hardcoded for now - paging to be tackled separately.
       pageNumber: 1,
       pageSize: MAX_RESULTS,
     };
-    const results = yield call([conceptsApi, conceptsApi.searchConcepts], params);
+    const results = yield call([conceptsApi, conceptsApi.searchConceptsDetailed], params);
     yield put(searchResultsReceived(results));
   } catch (res) {
     yield put(searchFailedAction(`Search failed (${res.message || res.statusText || res.status}).`));
-  }
-}
-
-export function* entryPointSaga(action: TaxonomyEntryPointChangedAction): IterableIterator<Effect> {
-  if (action.entryPointId) {
-    const searchText = yield select((state: AppState) => state.searchText);
-    yield put(searchAction(action.entryPointId, searchText));
   }
 }
 
@@ -73,7 +98,8 @@ export function* entryPointSaga(action: TaxonomyEntryPointChangedAction): Iterab
  */
 export function* appSaga(): IterableIterator<Effect> {
   yield all([
-    takeLatest(SEARCH, searchSaga),
     takeLatest(TAXONOMY_ENTRY_POINT_CHANGED, entryPointSaga),
+    takeLatest(REFERENCE_PARTS, referencePartsSaga),
+    takeLatest(SEARCH, searchSaga),
   ]);
 }

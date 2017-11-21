@@ -14,7 +14,7 @@ const host = process.env.npm_package_config_devserver_host;
 const port = parseInt(process.env.npm_package_config_devserver_port, 10);
 const https = process.env.npm_package_config_devserver_https === 'true';
 const baseUrl = `${https ? 'https' : 'http'}://${host}:${port}`;
-const apiProxyUrl = "http://lim.int.corefiling.com:8081"; // Revert to "process.env.npm_package_config_api_proxy" once deployed there;
+const apiProxyUrl = process.env.npm_package_config_api_proxy;
 
 const proxyHeaders = {};
 oauthToken.load(token => proxyHeaders['Authorization'] = `Bearer ${token.access_token}`);
@@ -54,12 +54,12 @@ const mergedConfig = merge.smart(mainConfig, {
           proxyReq.setHeader('Authorization', isLoggedIn ? proxyHeaders['Authorization'] : 'Bearer invalid');
         },
       },
-      '/api/bigfoot-search-service/': {
+      '/api/': {
         // logLevel: 'debug',
         target: apiProxyUrl,
         changeOrigin: true,
         pathRewrite: {
-          '^/api/bigfoot-search-service': '/platform/',
+          '^/api/': '/',
         },
         headers: proxyHeaders,
         onProxyRes: (proxyRes) => {

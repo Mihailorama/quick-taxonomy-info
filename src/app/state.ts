@@ -19,7 +19,7 @@
  */
 
 import { User, App } from './models';
-import { Taxonomy, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
+import { Taxonomy, ReferencePart, ConceptSearchQuery, ConceptSearchMatch } from '@cfl/bigfoot-search-service';
 
 export type AppPhase = 'startup' | 'startupfailed' | 'searching' | 'searchfailed' | 'ready';
 
@@ -29,7 +29,8 @@ export interface AppState {
   apps?: App[];
   taxonomies?: Taxonomy[];
   selectedEntryPointId?: number;
-  searchText: string;
+  selectedEntryPointReferenceParts?: ReferencePart[];
+  query: ConceptSearchQuery;
   results?: ConceptSearchMatch[];
   message?: string;
 }
