@@ -1,6 +1,6 @@
 {
   "name": "@cfl/quick-taxonomy-info",
-  "version": "1.1.0-local",
+  "version": "1.1.1-local",
   "cfl": {
     "group": {
       "name": "labs"
@@ -42,7 +42,7 @@
     "npm": ">=4.0.0"
   },
   "dependencies": {
-    "@cfl/simple-platform-server": "^2.0.0"
+    "@cfl/simple-platform-server": "^2.1.0"
   },
   "devDependencies": {
     "@cfl/bigfoot-search-service": "^1.1.0",
