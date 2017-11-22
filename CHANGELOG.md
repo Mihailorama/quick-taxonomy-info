@@ -1,6 +1,6 @@
 # Changelog
 
-## develop
+## 1.1.1
 - Upgrade simple-platform-server to 2.1.0.
 
 ## 1.1.0
