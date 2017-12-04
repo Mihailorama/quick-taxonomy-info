@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/CoreFiling/quick-taxonomy-info.svg?branch=develop)](https://travis-ci.org/CoreFiling/quick-taxonomy-info.svg?branch=develop)
+[![Apache 2 license](http://img.shields.io/badge/license-Apache2-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # CoreFiling Labs Bigfoot Search Sample
 
 A simple demonstration of how the CoreFiling Platform can be used to search for
